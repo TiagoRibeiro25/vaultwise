@@ -61,11 +61,29 @@ export const budgets = pgTable("budgets", {
     updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });
 
+export const subscriptions = pgTable("subscriptions", {
+    id: uuid("id").defaultRandom().primaryKey(),
+    userId: uuid("user_id")
+        .references(() => users.id, { onDelete: "cascade" })
+        .notNull(),
+    categoryId: uuid("category_id").references(() => categories.id, {
+        onDelete: "set null",
+    }),
+    name: text("name").notNull(),
+    amount: numeric("amount", { precision: 12, scale: 2 }).notNull(),
+    billingCycle: varchar("billing_cycle", { length: 50 }).notNull(), // 'monthly', 'yearly'
+    nextBillingDate: timestamp("next_billing_date").notNull(),
+    status: varchar("status", { length: 50 }).default("active").notNull(),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+    updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
 // Relations
 export const usersRelations = relations(users, ({ many }) => ({
     transactions: many(transactions),
     categories: many(categories),
     budgets: many(budgets),
+    subscriptions: many(subscriptions),
 }));
 
 export const categoriesRelations = relations(categories, ({ one, many }) => ({
@@ -75,6 +93,7 @@ export const categoriesRelations = relations(categories, ({ one, many }) => ({
     }),
     transactions: many(transactions),
     budgets: many(budgets),
+    subscriptions: many(subscriptions),
 }));
 
 export const transactionsRelations = relations(transactions, ({ one }) => ({
@@ -95,6 +114,17 @@ export const budgetsRelations = relations(budgets, ({ one }) => ({
     }),
     category: one(categories, {
         fields: [budgets.categoryId],
+        references: [categories.id],
+    }),
+}));
+
+export const subscriptionsRelations = relations(subscriptions, ({ one }) => ({
+    user: one(users, {
+        fields: [subscriptions.userId],
+        references: [users.id],
+    }),
+    category: one(categories, {
+        fields: [subscriptions.categoryId],
         references: [categories.id],
     }),
 }));

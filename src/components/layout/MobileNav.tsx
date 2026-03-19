@@ -11,6 +11,7 @@ import {
     PieChart,
     Tag,
     History,
+    RefreshCw,
 } from "lucide-react";
 import LogoutButton from "@/components/auth/LogoutButton";
 import ThemeToggle from "@/components/layout/ThemeToggle";
@@ -159,6 +160,24 @@ export default function MobileNav({ user }: MobileNavProps) {
                                         }`}
                                     />
                                     Budgets
+                                </Link>
+                                <Link
+                                    href="/dashboard/subscriptions"
+                                    className={`group flex items-center rounded-lg px-3 py-3 text-base font-medium transition-colors ${
+                                        pathname === "/dashboard/subscriptions"
+                                            ? "bg-indigo-50 text-indigo-700 dark:bg-indigo-500/10 dark:text-indigo-300"
+                                            : "text-slate-900 hover:bg-slate-50 hover:text-indigo-600 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-white"
+                                    }`}
+                                >
+                                    <RefreshCw
+                                        className={`mr-4 h-6 w-6 shrink-0 transition-colors ${
+                                            pathname ===
+                                            "/dashboard/subscriptions"
+                                                ? "text-indigo-600 dark:text-indigo-400"
+                                                : "text-slate-400 group-hover:text-indigo-600 dark:text-slate-500 dark:group-hover:text-white"
+                                        }`}
+                                    />
+                                    Subscriptions
                                 </Link>
                                 <Link
                                     href="/dashboard/history"

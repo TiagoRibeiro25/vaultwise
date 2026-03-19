@@ -1,7 +1,14 @@
 "use client";
 
 import Link from "next/link";
-import { Home, CreditCard, PieChart, Tag, History } from "lucide-react";
+import {
+    Home,
+    CreditCard,
+    PieChart,
+    Tag,
+    History,
+    RefreshCw,
+} from "lucide-react";
 import LogoutButton from "@/components/auth/LogoutButton";
 import ThemeToggle from "@/components/layout/ThemeToggle";
 import { usePathname } from "next/navigation";
@@ -72,6 +79,18 @@ export default function Sidebar({ user }: SidebarProps) {
                 >
                     <PieChart className="h-5 w-5 text-slate-400 dark:text-slate-500" />
                     Budgets
+                </Link>
+                <Link
+                    href="/dashboard/subscriptions"
+                    className={
+                        `flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors ` +
+                        (pathName === "/dashboard/subscriptions"
+                            ? "text-indigo-700 bg-indigo-50 dark:bg-indigo-500/10 dark:text-indigo-300"
+                            : "text-slate-600 hover:bg-slate-50 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-800/50 dark:hover:text-white")
+                    }
+                >
+                    <RefreshCw className="h-5 w-5 text-slate-400 dark:text-slate-500" />
+                    Subscriptions
                 </Link>
                 <Link
                     href="/dashboard/history"
