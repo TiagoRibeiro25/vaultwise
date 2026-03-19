@@ -94,6 +94,7 @@ export default function MobileNav({ user }: MobileNavProps) {
                             <nav className="px-4 space-y-2">
                                 <Link
                                     href="/dashboard"
+                                    onClick={() => setIsOpen(false)}
                                     className={`group flex items-center rounded-lg px-3 py-3 text-base font-medium transition-colors ${
                                         pathname === "/dashboard"
                                             ? "bg-indigo-50 text-indigo-700 dark:bg-indigo-500/10 dark:text-indigo-300"
@@ -111,6 +112,7 @@ export default function MobileNav({ user }: MobileNavProps) {
                                 </Link>
                                 <Link
                                     href="/dashboard/transactions"
+                                    onClick={() => setIsOpen(false)}
                                     className={`group flex items-center rounded-lg px-3 py-3 text-base font-medium transition-colors ${
                                         pathname === "/dashboard/transactions"
                                             ? "bg-indigo-50 text-indigo-700 dark:bg-indigo-500/10 dark:text-indigo-300"
@@ -129,6 +131,7 @@ export default function MobileNav({ user }: MobileNavProps) {
                                 </Link>
                                 <Link
                                     href="/dashboard/categories"
+                                    onClick={() => setIsOpen(false)}
                                     className={`group flex items-center rounded-lg px-3 py-3 text-base font-medium transition-colors ${
                                         pathname === "/dashboard/categories"
                                             ? "bg-indigo-50 text-indigo-700 dark:bg-indigo-500/10 dark:text-indigo-300"
@@ -146,6 +149,7 @@ export default function MobileNav({ user }: MobileNavProps) {
                                 </Link>
                                 <Link
                                     href="/dashboard/budgets"
+                                    onClick={() => setIsOpen(false)}
                                     className={`group flex items-center rounded-lg px-3 py-3 text-base font-medium transition-colors ${
                                         pathname === "/dashboard/budgets"
                                             ? "bg-indigo-50 text-indigo-700 dark:bg-indigo-500/10 dark:text-indigo-300"
@@ -163,6 +167,7 @@ export default function MobileNav({ user }: MobileNavProps) {
                                 </Link>
                                 <Link
                                     href="/dashboard/subscriptions"
+                                    onClick={() => setIsOpen(false)}
                                     className={`group flex items-center rounded-lg px-3 py-3 text-base font-medium transition-colors ${
                                         pathname === "/dashboard/subscriptions"
                                             ? "bg-indigo-50 text-indigo-700 dark:bg-indigo-500/10 dark:text-indigo-300"
@@ -181,6 +186,7 @@ export default function MobileNav({ user }: MobileNavProps) {
                                 </Link>
                                 <Link
                                     href="/dashboard/history"
+                                    onClick={() => setIsOpen(false)}
                                     className={`group flex items-center rounded-lg px-3 py-3 text-base font-medium transition-colors ${
                                         pathname === "/dashboard/history"
                                             ? "bg-indigo-50 text-indigo-700 dark:bg-indigo-500/10 dark:text-indigo-300"
