@@ -1,0 +1,15 @@
+services:
+    db:
+        image: postgres:16-alpine
+        container_name: vaultwise_db
+        environment:
+            POSTGRES_USER: user
+            POSTGRES_PASSWORD: password
+            POSTGRES_DB: vaultwise
+        ports:
+            - "5432:5432"
+        volumes:
+            - vaultwise_pgdata:/var/lib/postgresql/data
+
+volumes:
+    vaultwise_pgdata:
