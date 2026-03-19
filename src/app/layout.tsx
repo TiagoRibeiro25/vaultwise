@@ -2,13 +2,11 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/layout/ThemeProvider";
+import { METADATA } from "@/data/metadata";
 
 const inter = Inter({ subsets: ["latin"] });
 
-export const metadata: Metadata = {
-    title: "Vaultwise",
-    description: "Modern personal finance management",
-};
+export const metadata: Metadata = METADATA;
 
 export default function RootLayout({
     children,

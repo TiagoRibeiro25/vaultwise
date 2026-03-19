@@ -14,12 +14,14 @@ export default function NotFound() {
                 </h2>
 
                 <p className="mb-8 text-sm text-slate-500 dark:text-slate-400">
-                    We couldn&apos;t find the page you were looking for. It might have been moved, deleted, or perhaps the URL is incorrect.
+                    We couldn&apos;t find the page you were looking for. It
+                    might have been moved, deleted, or perhaps the URL is
+                    incorrect.
                 </p>
 
                 <Link
                     href="/dashboard"
-                    className="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-indigo-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 dark:bg-indigo-500 dark:hover:bg-indigo-400"
+                    className="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-indigo-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 dark:bg-indigo-500 dark:hover:bg-indigo-400"
                 >
                     <Home className="h-4 w-4" />
                     Back to Dashboard
