@@ -70,24 +70,18 @@ export default function MobileNav({ user }: MobileNavProps) {
                         onClick={() => setIsOpen(false)}
                         aria-hidden="true"
                     />
-                    <div className="relative flex w-full max-w-xs flex-1 flex-col bg-white pt-5 pb-4 dark:bg-slate-950 shadow-xl">
-                        <div className="absolute right-0 top-0 -mr-12 pt-4">
-                            <button
-                                className="ml-1 flex h-10 w-10 items-center justify-center rounded-full focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
-                                onClick={() => setIsOpen(false)}
-                            >
-                                <span className="sr-only">Close sidebar</span>
-                                <X
-                                    className="h-6 w-6 text-white"
-                                    aria-hidden="true"
-                                />
-                            </button>
-                        </div>
-
-                        <div className="flex shrink-0 items-center px-6">
+                    <div className="relative flex w-full flex-1 flex-col bg-white pt-5 pb-4 dark:bg-slate-950 shadow-xl">
+                        <div className="flex shrink-0 items-center justify-between px-6">
                             <span className="text-2xl font-bold tracking-tight text-indigo-600 dark:text-indigo-400">
                                 Vaultwise
                             </span>
+                            <button
+                                onClick={() => setIsOpen(false)}
+                                className="p-2 -mr-2 text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white transition-colors"
+                                aria-label="Close menu"
+                            >
+                                <X className="h-6 w-6" aria-hidden="true" />
+                            </button>
                         </div>
 
                         <div className="mt-8 h-0 flex-1 overflow-y-auto">
