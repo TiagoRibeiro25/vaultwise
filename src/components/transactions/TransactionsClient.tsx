@@ -36,6 +36,13 @@ export default function TransactionsClient() {
     const [transactionToEdit, setTransactionToEdit] =
         useState<Transaction | null>(null);
 
+    const [selectedMonth, setSelectedMonth] = useState<number | "all">(
+        new Date().getMonth() + 1,
+    );
+    const [selectedYear, setSelectedYear] = useState<number | "all">(
+        new Date().getFullYear(),
+    );
+
     const {
         data: transactions,
         execute: fetchTransactions,
@@ -44,11 +51,23 @@ export default function TransactionsClient() {
         url: "/api/transactions",
     });
 
+    const loadTransactions = () => {
+        let url = "/api/transactions";
+        const queryParams = [];
+        if (selectedMonth !== "all") queryParams.push(`month=${selectedMonth}`);
+        if (selectedYear !== "all") queryParams.push(`year=${selectedYear}`);
+
+        if (queryParams.length > 0) {
+            url += `?${queryParams.join("&")}`;
+        }
+        fetchTransactions(undefined, url);
+    };
+
     const { execute: deleteTransaction } = useApi({
         url: "/api/transactions",
         method: "DELETE",
         onSuccess: () => {
-            fetchTransactions();
+            loadTransactions();
         },
         onError: (error) => {
             alert(error || "Failed to delete transaction");
@@ -56,9 +75,9 @@ export default function TransactionsClient() {
     });
 
     useEffect(() => {
-        fetchTransactions();
+        loadTransactions();
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [selectedMonth, selectedYear]);
 
     const handleDelete = async (id: string) => {
         if (!confirm("Are you sure you want to delete this transaction?"))
@@ -77,11 +96,21 @@ export default function TransactionsClient() {
     };
 
     const handleModalSuccess = () => {
-        fetchTransactions();
+        loadTransactions();
     };
 
+    const filteredTransactions = transactions?.filter((t) => {
+        if (selectedMonth === "all" && selectedYear === "all") return true;
+        const d = new Date(t.date);
+        const matchMonth =
+            selectedMonth === "all" || d.getMonth() + 1 === selectedMonth;
+        const matchYear =
+            selectedYear === "all" || d.getFullYear() === selectedYear;
+        return matchMonth && matchYear;
+    });
+
     const handleExportCSV = () => {
-        if (!transactions || transactions.length === 0) {
+        if (!filteredTransactions || filteredTransactions.length === 0) {
             alert("No transactions to export.");
             return;
         }
@@ -89,7 +118,7 @@ export default function TransactionsClient() {
         const headers = ["Date", "Description", "Category", "Type", "Amount"];
         const csvRows = [headers.join(",")];
 
-        transactions.forEach((t) => {
+        filteredTransactions.forEach((t) => {
             const date = format(new Date(t.date), "yyyy-MM-dd");
             const description = t.description
                 ? `"${t.description.replace(/"/g, '""')}"`
@@ -137,7 +166,48 @@ export default function TransactionsClient() {
                         Manage your income and expenses.
                     </p>
                 </div>
-                <div className="mt-4 sm:ml-16 sm:mt-0 sm:flex-none flex items-center gap-2">
+                <div className="mt-4 sm:ml-16 sm:mt-0 sm:flex-none flex flex-wrap items-center gap-2">
+                    <select
+                        value={selectedMonth}
+                        onChange={(e) =>
+                            setSelectedMonth(
+                                e.target.value === "all"
+                                    ? "all"
+                                    : Number(e.target.value),
+                            )
+                        }
+                        className="rounded-lg border border-slate-300 bg-white px-3 py-2.5 text-sm text-slate-700 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200"
+                    >
+                        <option value="all">All Months</option>
+                        {Array.from({ length: 12 }, (_, i) => i + 1).map(
+                            (m) => (
+                                <option key={m} value={m}>
+                                    {format(new Date(2000, m - 1), "MMMM")}
+                                </option>
+                            ),
+                        )}
+                    </select>
+                    <select
+                        value={selectedYear}
+                        onChange={(e) =>
+                            setSelectedYear(
+                                e.target.value === "all"
+                                    ? "all"
+                                    : Number(e.target.value),
+                            )
+                        }
+                        className="rounded-lg border border-slate-300 bg-white px-3 py-2.5 text-sm text-slate-700 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200"
+                    >
+                        <option value="all">All Years</option>
+                        {Array.from(
+                            { length: 10 },
+                            (_, i) => new Date().getFullYear() - i,
+                        ).map((y) => (
+                            <option key={y} value={y}>
+                                {y}
+                            </option>
+                        ))}
+                    </select>
                     <button
                         type="button"
                         onClick={handleExportCSV}
@@ -204,7 +274,7 @@ export default function TransactionsClient() {
                                         Loading transactions...
                                     </td>
                                 </tr>
-                            ) : transactions?.length === 0 ? (
+                            ) : filteredTransactions?.length === 0 ? (
                                 <tr>
                                     <td
                                         colSpan={5}
@@ -223,7 +293,7 @@ export default function TransactionsClient() {
                                     </td>
                                 </tr>
                             ) : (
-                                transactions?.map((transaction) => (
+                                filteredTransactions?.map((transaction) => (
                                     <tr
                                         key={transaction.id}
                                         className="hover:bg-slate-50/50 dark:hover:bg-slate-800/50 transition-colors"

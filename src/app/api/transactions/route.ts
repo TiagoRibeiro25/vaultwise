@@ -1,20 +1,41 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { db } from "@/db";
 import { transactions } from "@/db/schema";
-import { eq, desc } from "drizzle-orm";
+import { eq, and, desc, gte, lte } from "drizzle-orm";
+import { startOfMonth, endOfMonth } from "date-fns";
 
-export async function GET() {
+export async function GET(req: NextRequest) {
     try {
         const session = await getServerSession(authOptions);
 
         if (!session?.user?.id) {
-            return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+            return NextResponse.json(
+                { message: "Unauthorized" },
+                { status: 401 },
+            );
+        }
+
+        const { searchParams } = new URL(req.url);
+        const monthParam = searchParams.get("month");
+        const yearParam = searchParams.get("year");
+
+        const conditions = [eq(transactions.userId, session.user.id)];
+
+        if (monthParam && yearParam) {
+            const year = parseInt(yearParam);
+            const month = parseInt(monthParam) - 1; // 0-indexed for Date
+
+            const startDate = startOfMonth(new Date(year, month));
+            const endDate = endOfMonth(new Date(year, month));
+
+            conditions.push(gte(transactions.date, startDate));
+            conditions.push(lte(transactions.date, endDate));
         }
 
         const userTransactions = await db.query.transactions.findMany({
-            where: eq(transactions.userId, session.user.id),
+            where: and(...conditions),
             orderBy: [desc(transactions.date)],
             with: {
                 category: true,
@@ -26,7 +47,7 @@ export async function GET() {
         console.error("Error fetching transactions:", error);
         return NextResponse.json(
             { message: "Failed to fetch transactions" },
-            { status: 500 }
+            { status: 500 },
         );
     }
 }
@@ -36,7 +57,10 @@ export async function POST(req: Request) {
         const session = await getServerSession(authOptions);
 
         if (!session?.user?.id) {
-            return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+            return NextResponse.json(
+                { message: "Unauthorized" },
+                { status: 401 },
+            );
         }
 
         const body = await req.json();
@@ -45,7 +69,7 @@ export async function POST(req: Request) {
         if (!amount || !type || !date) {
             return NextResponse.json(
                 { message: "Missing required fields" },
-                { status: 400 }
+                { status: 400 },
             );
         }
 
@@ -66,7 +90,7 @@ export async function POST(req: Request) {
         console.error("Error creating transaction:", error);
         return NextResponse.json(
             { message: "Failed to create transaction" },
-            { status: 500 }
+            { status: 500 },
         );
     }
 }
