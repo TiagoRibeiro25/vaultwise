@@ -35,18 +35,18 @@ export default function SubscriptionFormModal({
     onSuccess,
     subscriptionToEdit,
 }: SubscriptionFormModalProps) {
-    const [name, setName] = useState("");
-    const [amount, setAmount] = useState("");
+    const [name, setName] = useState<string>("");
+    const [amount, setAmount] = useState<string>("");
     const [billingCycle, setBillingCycle] = useState<"monthly" | "yearly">(
         "monthly",
     );
-    const [nextBillingDate, setNextBillingDate] = useState(
+    const [nextBillingDate, setNextBillingDate] = useState<string>(
         new Date().toISOString().split("T")[0],
     );
-    const [categoryId, setCategoryId] = useState("");
+    const [categoryId, setCategoryId] = useState<string>("");
     const [status, setStatus] = useState<"active" | "paused">("active");
 
-    const [prevIsOpen, setPrevIsOpen] = useState(false);
+    const [prevIsOpen, setPrevIsOpen] = useState<boolean>(false);
     const [prevSubscriptionToEdit, setPrevSubscriptionToEdit] = useState<
         Subscription | null | undefined
     >(undefined);
@@ -103,7 +103,7 @@ export default function SubscriptionFormModal({
 
     if (!isOpen) return null;
 
-    const handleSubmit = async (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
         e.preventDefault();
 
         if (!name || !amount || !nextBillingDate) {
@@ -226,7 +226,7 @@ export default function SubscriptionFormModal({
                                 onChange={(e) =>
                                     setNextBillingDate(e.target.value)
                                 }
-                                className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 dark:border-slate-700 dark:bg-slate-950 dark:text-white dark:[color-scheme:dark]"
+                                className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 dark:border-slate-700 dark:bg-slate-950 dark:text-white dark:scheme-dark"
                             />
                         </div>
 
@@ -277,7 +277,7 @@ export default function SubscriptionFormModal({
                     <button
                         type="button"
                         onClick={onClose}
-                        className="rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700"
+                        className="rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700 cursor-pointer"
                     >
                         Cancel
                     </button>
@@ -285,7 +285,7 @@ export default function SubscriptionFormModal({
                         type="submit"
                         form="subscription-form"
                         disabled={isLoading}
-                        className="rounded-lg bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700 disabled:opacity-50 dark:hover:bg-indigo-500"
+                        className="rounded-lg bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700 disabled:opacity-50 dark:hover:bg-indigo-500 cursor-pointer"
                     >
                         {isLoading ? "Saving..." : "Save Subscription"}
                     </button>

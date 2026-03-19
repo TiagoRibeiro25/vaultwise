@@ -46,7 +46,7 @@ export default function SubscriptionsClient() {
         method: "DELETE",
     });
 
-    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
     const [editingSub, setEditingSub] = useState<Subscription | null>(null);
 
     useEffect(() => {

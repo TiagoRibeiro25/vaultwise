@@ -36,7 +36,7 @@ type BudgetWithSpent = Budget & {
 };
 
 export default function BudgetsClient() {
-    const [currentDate] = useState(new Date());
+    const [currentDate] = useState<Date>(new Date());
     const currentMonth = currentDate.getMonth() + 1; // 1-12
     const currentYear = currentDate.getFullYear();
 
@@ -63,7 +63,7 @@ export default function BudgetsClient() {
         method: "DELETE",
     });
 
-    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
     const [editingBudget, setEditingBudget] = useState<Budget | null>(null);
 
     useEffect(() => {

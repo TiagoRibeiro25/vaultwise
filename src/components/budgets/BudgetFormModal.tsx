@@ -37,10 +37,10 @@ export default function BudgetFormModal({
     currentMonth,
     currentYear,
 }: BudgetFormModalProps) {
-    const [categoryId, setCategoryId] = useState("");
-    const [amount, setAmount] = useState("");
+    const [categoryId, setCategoryId] = useState<string>("");
+    const [amount, setAmount] = useState<string>("");
 
-    const [prevIsOpen, setPrevIsOpen] = useState(false);
+    const [prevIsOpen, setPrevIsOpen] = useState<boolean>(false);
     const [prevBudgetToEdit, setPrevBudgetToEdit] = useState<
         Budget | null | undefined
     >(undefined);
@@ -184,7 +184,7 @@ export default function BudgetFormModal({
                         <button
                             type="button"
                             onClick={onClose}
-                            className="rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700"
+                            className="rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700 cursor-pointer"
                         >
                             Cancel
                         </button>
@@ -192,7 +192,7 @@ export default function BudgetFormModal({
                             type="submit"
                             form="budget-form"
                             disabled={isLoading}
-                            className="rounded-lg bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-50 dark:hover:bg-indigo-500"
+                            className="rounded-lg bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-50 dark:hover:bg-indigo-500 cursor-pointer"
                         >
                             {isLoading ? "Saving..." : "Save Budget"}
                         </button>
