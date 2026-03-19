@@ -8,6 +8,7 @@ import {
     Calendar,
     CreditCard,
     Activity,
+    CheckCircle,
 } from "lucide-react";
 import { format, differenceInDays } from "date-fns";
 import { useApi } from "@/hooks/useApi";
@@ -156,6 +157,54 @@ export default function SubscriptionsClient() {
         } | null;
         if (!result?.error) {
             fetchSubscriptions();
+        }
+    };
+
+    const handleLogPayment = async (sub: Subscription) => {
+        if (
+            !window.confirm(
+                `Log payment for ${sub.name} and update next billing date?`,
+            )
+        )
+            return;
+
+        try {
+            const txRes = await fetch("/api/transactions", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    amount: sub.amount,
+                    type: "expense",
+                    description: sub.name,
+                    date: new Date().toISOString(),
+                    categoryId: sub.categoryId,
+                }),
+            });
+
+            if (!txRes.ok) throw new Error("Failed to log transaction");
+
+            const currentBillingDate = new Date(sub.nextBillingDate);
+            const nextDate = new Date(currentBillingDate);
+            if (sub.billingCycle === "monthly") {
+                nextDate.setMonth(nextDate.getMonth() + 1);
+            } else {
+                nextDate.setFullYear(nextDate.getFullYear() + 1);
+            }
+
+            const subRes = await fetch(`/api/subscriptions/${sub.id}`, {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    nextBillingDate: nextDate.toISOString(),
+                }),
+            });
+
+            if (!subRes.ok) throw new Error("Failed to update subscription");
+
+            fetchSubscriptions();
+        } catch (error) {
+            console.error(error);
+            alert("An error occurred while logging the payment.");
         }
     };
 
@@ -414,21 +463,31 @@ export default function SubscriptionsClient() {
                                 <div className="absolute top-4 right-4 flex opacity-0 transition-opacity group-hover:opacity-100">
                                     {/* Action buttons appear on hover, but we'll keep them always visible for touch devices by placing them at the bottom in mobile */}
                                 </div>
-                                <div className="mt-4 flex gap-2 w-full">
+                                <div className="mt-4 flex flex-col gap-2 w-full">
                                     <button
-                                        onClick={() => handleOpenModal(sub)}
-                                        className="flex-1 inline-flex justify-center items-center rounded-md bg-slate-50 px-3 py-1.5 text-sm font-medium text-slate-700 hover:bg-slate-100 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700 transition-colors"
+                                        onClick={() => handleLogPayment(sub)}
+                                        disabled={sub.status === "paused"}
+                                        className="w-full inline-flex justify-center items-center rounded-md bg-emerald-50 px-3 py-2 text-sm font-medium text-emerald-700 hover:bg-emerald-100 dark:bg-emerald-500/10 dark:text-emerald-400 dark:hover:bg-emerald-500/20 transition-colors disabled:opacity-50"
                                     >
-                                        <Edit2 className="mr-1.5 h-3.5 w-3.5" />
-                                        Edit
+                                        <CheckCircle className="mr-1.5 h-4 w-4" />
+                                        Log Payment
                                     </button>
-                                    <button
-                                        onClick={() => handleDelete(sub.id)}
-                                        disabled={isDeleting}
-                                        className="inline-flex justify-center items-center rounded-md bg-red-50 px-3 py-1.5 text-sm font-medium text-red-700 hover:bg-red-100 dark:bg-red-500/10 dark:text-red-400 dark:hover:bg-red-500/20 transition-colors"
-                                    >
-                                        <Trash2 className="h-3.5 w-3.5" />
-                                    </button>
+                                    <div className="flex gap-2 w-full">
+                                        <button
+                                            onClick={() => handleOpenModal(sub)}
+                                            className="flex-1 inline-flex justify-center items-center rounded-md bg-slate-50 px-3 py-1.5 text-sm font-medium text-slate-700 hover:bg-slate-100 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700 transition-colors"
+                                        >
+                                            <Edit2 className="mr-1.5 h-3.5 w-3.5" />
+                                            Edit
+                                        </button>
+                                        <button
+                                            onClick={() => handleDelete(sub.id)}
+                                            disabled={isDeleting}
+                                            className="inline-flex justify-center items-center rounded-md bg-red-50 px-3 py-1.5 text-sm font-medium text-red-700 hover:bg-red-100 dark:bg-red-500/10 dark:text-red-400 dark:hover:bg-red-500/20 transition-colors"
+                                        >
+                                            <Trash2 className="h-3.5 w-3.5" />
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         );
