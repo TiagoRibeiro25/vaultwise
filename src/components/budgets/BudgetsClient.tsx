@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { Plus, Edit2, Trash2, AlertCircle, Euro } from "lucide-react";
 import { useApi } from "@/hooks/useApi";
 import { format } from "date-fns";
+import BudgetFormModal from "./BudgetFormModal";
 
 type Category = {
     id: string;
@@ -47,7 +48,7 @@ export default function BudgetsClient() {
         url: `/api/budgets?month=${currentMonth}&year=${currentYear}`,
     });
 
-    const { data: categories, execute: fetchCategories } = useApi<Category[]>({
+    const { execute: fetchCategories } = useApi<Category[]>({
         url: "/api/categories",
     });
 
@@ -64,17 +65,6 @@ export default function BudgetsClient() {
 
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [editingBudget, setEditingBudget] = useState<Budget | null>(null);
-
-    // Form state
-    const [categoryId, setCategoryId] = useState("");
-    const [amount, setAmount] = useState("");
-    const [isSubmitting, setIsSubmitting] = useState(false);
-    const [formError, setFormError] = useState("");
-
-    const { execute: saveBudgetApi } = useApi({
-        url: "/api/budgets",
-        method: editingBudget ? "PUT" : "POST",
-    });
 
     useEffect(() => {
         fetchBudgets();
@@ -119,57 +109,8 @@ export default function BudgetsClient() {
     };
 
     const handleOpenModal = (budget?: Budget) => {
-        if (budget) {
-            setEditingBudget(budget);
-            setCategoryId(budget.categoryId);
-            setAmount(budget.amount);
-        } else {
-            setEditingBudget(null);
-            setCategoryId("");
-            setAmount("");
-        }
-        setFormError("");
+        setEditingBudget(budget || null);
         setIsModalOpen(true);
-    };
-
-    const handleCloseModal = () => {
-        setIsModalOpen(false);
-        setEditingBudget(null);
-        setCategoryId("");
-        setAmount("");
-    };
-
-    const handleSubmit = async (e: React.SubmitEvent) => {
-        e.preventDefault();
-        setIsSubmitting(true);
-        setFormError("");
-
-        if (!categoryId || !amount) {
-            setFormError("Please fill in all fields.");
-            setIsSubmitting(false);
-            return;
-        }
-
-        const payload = {
-            categoryId,
-            amount: Number(amount),
-            month: currentMonth,
-            year: currentYear,
-        };
-
-        const result = (await saveBudgetApi(
-            payload,
-            editingBudget ? `/api/budgets/${editingBudget.id}` : undefined,
-        )) as { error?: string } | null;
-
-        if (result?.error) {
-            setFormError(result.error);
-        } else {
-            fetchBudgets();
-            handleCloseModal();
-        }
-
-        setIsSubmitting(false);
     };
 
     const handleDelete = async (id: string) => {
@@ -344,103 +285,14 @@ export default function BudgetsClient() {
                 </div>
             </div>
 
-            {/* Modal */}
-            {isModalOpen && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-                    <div
-                        className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm transition-opacity"
-                        onClick={handleCloseModal}
-                        aria-hidden="true"
-                    />
-                    <div className="relative z-10 w-full max-w-md rounded-xl bg-white p-6 shadow-xl dark:bg-slate-900">
-                        <h2 className="text-xl font-bold text-slate-900 dark:text-white mb-4">
-                            {editingBudget ? "Edit Budget" : "Add Budget"}
-                        </h2>
-
-                        {formError && (
-                            <div className="mb-4 rounded-lg bg-red-50 p-3 text-sm text-red-600 dark:bg-red-500/10 dark:text-red-400">
-                                {formError}
-                            </div>
-                        )}
-
-                        <form onSubmit={handleSubmit} className="space-y-4">
-                            <div>
-                                <label
-                                    htmlFor="category"
-                                    className="mb-1 block text-sm font-medium text-slate-700 dark:text-slate-300"
-                                >
-                                    Category
-                                </label>
-                                <select
-                                    id="category"
-                                    value={categoryId}
-                                    onChange={(e) =>
-                                        setCategoryId(e.target.value)
-                                    }
-                                    disabled={!!editingBudget}
-                                    className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 dark:border-slate-700 dark:bg-slate-800 dark:text-white disabled:opacity-50"
-                                    required
-                                >
-                                    <option value="" disabled>
-                                        Select a category
-                                    </option>
-                                    {(categories || []).map((cat) => (
-                                        <option key={cat.id} value={cat.id}>
-                                            {cat.name}
-                                        </option>
-                                    ))}
-                                </select>
-                            </div>
-
-                            <div>
-                                <label
-                                    htmlFor="amount"
-                                    className="mb-1 block text-sm font-medium text-slate-700 dark:text-slate-300"
-                                >
-                                    Budget Amount
-                                </label>
-                                <div className="relative">
-                                    <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-                                        <span className="text-slate-500 dark:text-slate-400">
-                                            €
-                                        </span>
-                                    </div>
-                                    <input
-                                        type="number"
-                                        id="amount"
-                                        min="0.01"
-                                        step="0.01"
-                                        value={amount}
-                                        onChange={(e) =>
-                                            setAmount(e.target.value)
-                                        }
-                                        className="w-full rounded-lg border border-slate-300 bg-white py-2 pl-8 pr-3 text-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 dark:border-slate-700 dark:bg-slate-800 dark:text-white"
-                                        placeholder="0.00"
-                                        required
-                                    />
-                                </div>
-                            </div>
-
-                            <div className="mt-6 flex justify-end gap-3">
-                                <button
-                                    type="button"
-                                    onClick={handleCloseModal}
-                                    className="rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700"
-                                >
-                                    Cancel
-                                </button>
-                                <button
-                                    type="submit"
-                                    disabled={isSubmitting}
-                                    className="rounded-lg bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-50 dark:hover:bg-indigo-500"
-                                >
-                                    {isSubmitting ? "Saving..." : "Save Budget"}
-                                </button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            )}
+            <BudgetFormModal
+                isOpen={isModalOpen}
+                onClose={() => setIsModalOpen(false)}
+                onSuccess={() => fetchBudgets()}
+                budgetToEdit={editingBudget}
+                currentMonth={currentMonth}
+                currentYear={currentYear}
+            />
         </div>
     );
 }

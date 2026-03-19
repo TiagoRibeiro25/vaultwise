@@ -200,7 +200,11 @@ export default function MobileNav({ user }: MobileNavProps) {
                         </div>
 
                         <div className="border-t border-slate-200 dark:border-slate-800 p-4">
-                            <div className="flex items-center gap-3 px-2 mb-4">
+                            <Link
+                                href="/dashboard/profile"
+                                onClick={() => setIsOpen(false)}
+                                className="flex items-center gap-3 px-2 mb-4 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800/50 py-2 transition-colors cursor-pointer"
+                            >
                                 <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-indigo-600 text-white font-semibold shadow-sm">
                                     {user?.name?.charAt(0).toUpperCase() || "U"}
                                 </div>
@@ -212,7 +216,7 @@ export default function MobileNav({ user }: MobileNavProps) {
                                         {user?.email}
                                     </span>
                                 </div>
-                            </div>
+                            </Link>
                             <div className="flex flex-col gap-2 px-2">
                                 <ThemeToggle />
                                 <LogoutButton />

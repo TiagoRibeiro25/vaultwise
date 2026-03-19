@@ -107,7 +107,10 @@ export default function Sidebar({ user }: SidebarProps) {
             </nav>
 
             <div className="border-t border-slate-200 p-4 dark:border-slate-800">
-                <div className="flex items-center justify-between px-3 py-2 mb-2">
+                <Link
+                    href="/dashboard/profile"
+                    className="flex items-center justify-between px-3 py-2 mb-2 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors cursor-pointer"
+                >
                     <div className="flex items-center gap-3 overflow-hidden">
                         <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-indigo-600 text-white font-semibold shadow-sm">
                             {user?.name?.charAt(0).toUpperCase() || "U"}
@@ -121,7 +124,7 @@ export default function Sidebar({ user }: SidebarProps) {
                             </span>
                         </div>
                     </div>
-                </div>
+                </Link>
                 <div className="flex flex-col gap-2 px-2">
                     <ThemeToggle />
                     <LogoutButton />
