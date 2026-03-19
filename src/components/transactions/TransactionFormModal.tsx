@@ -111,7 +111,7 @@ export default function TransactionFormModal({
     };
 
     return (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-0">
+        <div className="fixed inset-0 z-100 flex items-center justify-center p-4 sm:p-0">
             <div
                 className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm transition-opacity"
                 onClick={onClose}
@@ -237,7 +237,7 @@ export default function TransactionFormModal({
                                     required
                                     value={date}
                                     onChange={(e) => setDate(e.target.value)}
-                                    className="block w-full rounded-lg border-0 py-2.5 px-3 text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 placeholder:text-slate-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 dark:bg-slate-950 dark:text-white dark:ring-slate-700 dark:focus:ring-indigo-500 dark:[color-scheme:dark]"
+                                    className="block w-full rounded-lg border-0 py-2.5 px-3 text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 placeholder:text-slate-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 dark:bg-slate-950 dark:text-white dark:ring-slate-700 dark:focus:ring-indigo-500 dark:scheme-dark"
                                 />
                             </div>
 
