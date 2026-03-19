@@ -542,7 +542,7 @@ export default function SubscriptionsClient() {
                                         onChange={(e) =>
                                             setNextBillingDate(e.target.value)
                                         }
-                                        className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 dark:border-slate-700 dark:bg-slate-950 dark:text-white dark:[color-scheme:dark]"
+                                        className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 dark:border-slate-700 dark:bg-slate-950 dark:text-white dark:scheme-dark"
                                     />
                                 </div>
 
