@@ -3,7 +3,15 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Menu, X, Home, CreditCard, PieChart, Tag } from "lucide-react";
+import {
+    Menu,
+    X,
+    Home,
+    CreditCard,
+    PieChart,
+    Tag,
+    History,
+} from "lucide-react";
 import LogoutButton from "@/components/auth/LogoutButton";
 import ThemeToggle from "@/components/layout/ThemeToggle";
 
@@ -151,6 +159,23 @@ export default function MobileNav({ user }: MobileNavProps) {
                                         }`}
                                     />
                                     Budgets
+                                </Link>
+                                <Link
+                                    href="/dashboard/history"
+                                    className={`group flex items-center rounded-lg px-3 py-3 text-base font-medium transition-colors ${
+                                        pathname === "/dashboard/history"
+                                            ? "bg-indigo-50 text-indigo-700 dark:bg-indigo-500/10 dark:text-indigo-300"
+                                            : "text-slate-900 hover:bg-slate-50 hover:text-indigo-600 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-white"
+                                    }`}
+                                >
+                                    <History
+                                        className={`mr-4 h-6 w-6 shrink-0 transition-colors ${
+                                            pathname === "/dashboard/history"
+                                                ? "text-indigo-600 dark:text-indigo-400"
+                                                : "text-slate-400 group-hover:text-indigo-600 dark:text-slate-500 dark:group-hover:text-white"
+                                        }`}
+                                    />
+                                    History
                                 </Link>
                             </nav>
                         </div>

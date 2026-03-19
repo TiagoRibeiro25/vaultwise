@@ -139,7 +139,7 @@ export default function BudgetsClient() {
         setAmount("");
     };
 
-    const handleSubmit = async (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.SubmitEvent) => {
         e.preventDefault();
         setIsSubmitting(true);
         setFormError("");
@@ -157,12 +157,12 @@ export default function BudgetsClient() {
             year: currentYear,
         };
 
-        const result = await saveBudgetApi(
+        const result = (await saveBudgetApi(
             payload,
             editingBudget ? `/api/budgets/${editingBudget.id}` : undefined,
-        );
+        )) as { error?: string } | null;
 
-        if (result.error) {
+        if (result?.error) {
             setFormError(result.error);
         } else {
             fetchBudgets();
@@ -177,8 +177,10 @@ export default function BudgetsClient() {
             return;
         }
 
-        const result = await deleteBudgetApi(null, `/api/budgets/${id}`);
-        if (!result.error) {
+        const result = (await deleteBudgetApi(null, `/api/budgets/${id}`)) as {
+            error?: string;
+        } | null;
+        if (!result?.error) {
             fetchBudgets();
         }
     };
