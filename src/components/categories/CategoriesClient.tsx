@@ -4,6 +4,8 @@ import { useState, useEffect } from "react";
 import { Plus, Pencil, Trash2, Tag, Lock } from "lucide-react";
 import { useApi } from "@/hooks/useApi";
 import CategoryFormModal from "./CategoryFormModal";
+import ConfirmModal from "@/components/ui/ConfirmModal";
+import toast from "react-hot-toast";
 
 interface Category {
     id: string;
@@ -16,6 +18,9 @@ interface Category {
 export default function CategoriesClient() {
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
     const [categoryToEdit, setCategoryToEdit] = useState<Category | null>(null);
+    const [categoryToDelete, setCategoryToDelete] = useState<string | null>(
+        null,
+    );
 
     const {
         data: categories,
@@ -32,7 +37,7 @@ export default function CategoriesClient() {
             fetchCategories();
         },
         onError: (error) => {
-            alert(error || "Failed to delete category");
+            toast.error(error || "Failed to delete category");
         },
     });
 
@@ -42,8 +47,13 @@ export default function CategoriesClient() {
     }, []);
 
     const handleDelete = async (id: string) => {
-        if (!confirm("Are you sure you want to delete this category?")) return;
-        await deleteCategory(undefined, `/api/categories/${id}`);
+        setCategoryToDelete(id);
+    };
+
+    const confirmDelete = async () => {
+        if (!categoryToDelete) return;
+        await deleteCategory(undefined, `/api/categories/${categoryToDelete}`);
+        setCategoryToDelete(null);
     };
 
     const handleEdit = (category: Category) => {
@@ -170,6 +180,16 @@ export default function CategoriesClient() {
                 onClose={() => setIsModalOpen(false)}
                 onSuccess={handleModalSuccess}
                 categoryToEdit={categoryToEdit}
+            />
+
+            <ConfirmModal
+                isOpen={!!categoryToDelete}
+                title="Delete Category"
+                message="Are you sure you want to delete this category?"
+                confirmText="Delete"
+                onConfirm={confirmDelete}
+                onCancel={() => setCategoryToDelete(null)}
+                isDestructive
             />
         </div>
     );

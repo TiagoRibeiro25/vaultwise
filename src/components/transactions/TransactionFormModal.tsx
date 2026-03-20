@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { X } from "lucide-react";
 import { useApi } from "@/hooks/useApi";
+import toast from "react-hot-toast";
 
 interface Category {
     id: string;
@@ -93,11 +94,11 @@ export default function TransactionFormModal({
 
     if (!isOpen) return null;
 
-    const handleSubmit = async (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
         e.preventDefault();
 
         if (!categoryId) {
-            alert("Please select a category.");
+            toast.error("Please select a category.");
             return;
         }
 

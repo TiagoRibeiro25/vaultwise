@@ -2,6 +2,7 @@ import { Download } from "lucide-react";
 import type { FC } from "react";
 import { Transaction } from "./TransactionsClient";
 import { format } from "date-fns";
+import toast from "react-hot-toast";
 
 interface ExportCsvButtonProps {
     filteredTransactions: Transaction[] | null;
@@ -12,7 +13,7 @@ const ExportCsvButton: FC<ExportCsvButtonProps> = ({
 }) => {
     const handleExportCSV = () => {
         if (!filteredTransactions || filteredTransactions.length === 0) {
-            alert("No transactions to export.");
+            toast.error("No transactions to export.");
             return;
         }
 

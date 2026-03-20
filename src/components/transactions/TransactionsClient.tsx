@@ -1,5 +1,8 @@
 "use client";
 
+import ConfirmModal from "@/components/ui/ConfirmModal";
+import toast from "react-hot-toast";
+
 import { useState, useEffect } from "react";
 import {
     Plus,
@@ -70,7 +73,7 @@ export default function TransactionsClient() {
             loadTransactions();
         },
         onError: (error) => {
-            alert(error || "Failed to delete transaction");
+            toast.error(error || "Failed to delete transaction");
         },
     });
 
@@ -79,10 +82,21 @@ export default function TransactionsClient() {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [selectedMonth, selectedYear]);
 
+    const [transactionToDelete, setTransactionToDelete] = useState<
+        string | null
+    >(null);
+
     const handleDelete = async (id: string) => {
-        if (!confirm("Are you sure you want to delete this transaction?"))
-            return;
-        await deleteTransaction(undefined, `/api/transactions/${id}`);
+        setTransactionToDelete(id);
+    };
+
+    const confirmDelete = async () => {
+        if (!transactionToDelete) return;
+        await deleteTransaction(
+            undefined,
+            `/api/transactions/${transactionToDelete}`,
+        );
+        setTransactionToDelete(null);
     };
 
     const handleEdit = (transaction: Transaction) => {
@@ -340,6 +354,15 @@ export default function TransactionsClient() {
                 onClose={() => setIsModalOpen(false)}
                 onSuccess={handleModalSuccess}
                 transactionToEdit={transactionToEdit}
+            />
+            <ConfirmModal
+                isOpen={!!transactionToDelete}
+                title="Delete Transaction"
+                message="Are you sure you want to delete this transaction?"
+                confirmText="Delete"
+                onConfirm={confirmDelete}
+                onCancel={() => setTransactionToDelete(null)}
+                isDestructive
             />
         </div>
     );

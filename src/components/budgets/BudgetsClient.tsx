@@ -5,6 +5,7 @@ import { Plus, Edit2, Trash2, AlertCircle, Euro } from "lucide-react";
 import { useApi } from "@/hooks/useApi";
 import { format } from "date-fns";
 import BudgetFormModal from "./BudgetFormModal";
+import ConfirmModal from "@/components/ui/ConfirmModal";
 
 type Category = {
     id: string;
@@ -65,6 +66,7 @@ export default function BudgetsClient() {
 
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
     const [editingBudget, setEditingBudget] = useState<Budget | null>(null);
+    const [budgetToDelete, setBudgetToDelete] = useState<string | null>(null);
 
     useEffect(() => {
         fetchBudgets();
@@ -114,16 +116,22 @@ export default function BudgetsClient() {
     };
 
     const handleDelete = async (id: string) => {
-        if (!window.confirm("Are you sure you want to delete this budget?")) {
-            return;
-        }
+        setBudgetToDelete(id);
+    };
 
-        const result = (await deleteBudgetApi(null, `/api/budgets/${id}`)) as {
+    const confirmDelete = async () => {
+        if (!budgetToDelete) return;
+
+        const result = (await deleteBudgetApi(
+            null,
+            `/api/budgets/${budgetToDelete}`,
+        )) as {
             error?: string;
         } | null;
         if (!result?.error) {
             fetchBudgets();
         }
+        setBudgetToDelete(null);
     };
 
     const getProgressColor = (percentage: number) => {
@@ -292,6 +300,16 @@ export default function BudgetsClient() {
                 budgetToEdit={editingBudget}
                 currentMonth={currentMonth}
                 currentYear={currentYear}
+            />
+
+            <ConfirmModal
+                isOpen={!!budgetToDelete}
+                title="Delete Budget"
+                message="Are you sure you want to delete this budget?"
+                confirmText="Delete"
+                onConfirm={confirmDelete}
+                onCancel={() => setBudgetToDelete(null)}
+                isDestructive
             />
         </div>
     );

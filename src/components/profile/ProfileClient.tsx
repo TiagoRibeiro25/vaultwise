@@ -46,7 +46,7 @@ export default function ProfileClient() {
         }
     }, [profile]);
 
-    const handleSubmit = async (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
         e.preventDefault();
         setSuccessMessage("");
         setErrorMessage("");

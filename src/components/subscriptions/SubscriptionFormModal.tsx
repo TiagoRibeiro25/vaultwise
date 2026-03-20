@@ -29,6 +29,8 @@ interface SubscriptionFormModalProps {
     subscriptionToEdit?: Subscription | null;
 }
 
+import toast from "react-hot-toast";
+
 export default function SubscriptionFormModal({
     isOpen,
     onClose,
@@ -107,7 +109,7 @@ export default function SubscriptionFormModal({
         e.preventDefault();
 
         if (!name || !amount || !nextBillingDate) {
-            alert("Please fill in all required fields.");
+            toast.error("Please fill in all required fields.");
             return;
         }
 
