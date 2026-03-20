@@ -24,8 +24,8 @@ interface MobileNavProps {
 }
 
 export default function MobileNav({ user }: MobileNavProps) {
-    const [isOpen, setIsOpen] = useState<boolean>(false);
     const pathname = usePathname();
+    const [isOpen, setIsOpen] = useState<boolean>(false);
     const [savedPathname, setSavedPathname] = useState<string>(pathname);
 
     // Close menu automatically on route change by deriving state during render

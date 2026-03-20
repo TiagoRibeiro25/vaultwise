@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { X } from "lucide-react";
 import { useApi } from "@/hooks/useApi";
+import toast from "react-hot-toast";
 
 type Category = {
     id: string;
@@ -28,8 +29,6 @@ interface BudgetFormModalProps {
     currentMonth: number;
     currentYear: number;
 }
-
-import toast from "react-hot-toast";
 
 export default function BudgetFormModal({
     isOpen,

@@ -137,8 +137,9 @@ export default function SubscriptionsClient() {
     };
 
     const { monthlyTotal, yearlyTotal, activeCount } = useMemo(() => {
-        if (!subscriptions)
+        if (!subscriptions) {
             return { monthlyTotal: 0, yearlyTotal: 0, activeCount: 0 };
+        }
 
         let monthly = 0;
         let yearly = 0;

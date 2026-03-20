@@ -11,6 +11,7 @@ import {
     Calendar,
 } from "lucide-react";
 import { formatCurrency } from "@/app/utils/currency";
+import { MONTH_NAMES } from "@/constants/months";
 
 interface Category {
     id: string;
@@ -123,21 +124,6 @@ export default function HistoryClient() {
         };
     }, [filteredTransactions]);
 
-    const monthNames = [
-        "January",
-        "February",
-        "March",
-        "April",
-        "May",
-        "June",
-        "July",
-        "August",
-        "September",
-        "October",
-        "November",
-        "December",
-    ];
-
     return (
         <div className="space-y-6">
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
@@ -161,7 +147,7 @@ export default function HistoryClient() {
                     >
                         {availableMonths.map((m) => (
                             <option key={m} value={m}>
-                                {monthNames[m - 1]}
+                                {MONTH_NAMES[m - 1]}
                             </option>
                         ))}
                     </select>
@@ -232,7 +218,7 @@ export default function HistoryClient() {
             <div className="rounded-xl border border-slate-200 bg-white shadow-sm dark:border-slate-800 dark:bg-slate-900 overflow-hidden">
                 <div className="border-b border-slate-200 px-6 py-4 dark:border-slate-800">
                     <h2 className="text-lg font-semibold text-slate-900 dark:text-white">
-                        Transactions for {monthNames[selectedMonth - 1]}{" "}
+                        Transactions for {MONTH_NAMES[selectedMonth - 1]}{" "}
                         {selectedYear}
                     </h2>
                 </div>

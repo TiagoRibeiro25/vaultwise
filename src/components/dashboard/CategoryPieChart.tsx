@@ -1,5 +1,6 @@
 "use client";
 
+import { FALLBACK_COLORS } from "@/constants/colors";
 import { useMemo } from "react";
 import {
     PieChart,
@@ -27,19 +28,6 @@ interface Transaction {
 interface CategoryPieChartProps {
     transactions: Transaction[];
 }
-
-// Fallback colors if a category doesn't have one
-const COLORS = [
-    "#6366f1", // indigo
-    "#8b5cf6", // violet
-    "#ec4899", // pink
-    "#f43f5e", // rose
-    "#f97316", // orange
-    "#eab308", // yellow
-    "#22c55e", // green
-    "#14b8a6", // teal
-    "#0ea5e9", // sky
-];
 
 interface CustomTooltipProps {
     active?: boolean;
@@ -107,7 +95,9 @@ export default function CategoryPieChart({
             .sort((a, b) => b.value - a.value)
             .map((item, index) => ({
                 ...item,
-                color: item.color || COLORS[index % COLORS.length],
+                color:
+                    item.color ||
+                    FALLBACK_COLORS[index % FALLBACK_COLORS.length],
             }));
     }, [transactions]);
 
