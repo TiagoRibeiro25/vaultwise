@@ -24,7 +24,15 @@ export default function RootLayout({
                     disableTransitionOnChange
                 >
                     {children}
-                    <Toaster position="bottom-right" />
+                    <Toaster
+                        position="bottom-right"
+                        toastOptions={{
+                            style: {
+                                background: "#333",
+                                color: "#fff",
+                            },
+                        }}
+                    />
                 </ThemeProvider>
             </body>
         </html>
