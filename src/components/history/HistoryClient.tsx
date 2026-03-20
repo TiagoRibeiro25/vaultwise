@@ -10,6 +10,7 @@ import {
     Wallet,
     Calendar,
 } from "lucide-react";
+import { formatCurrency } from "@/app/utils/currency";
 
 interface Category {
     id: string;
@@ -121,13 +122,6 @@ export default function HistoryClient() {
             balance: income - expense,
         };
     }, [filteredTransactions]);
-
-    const formatCurrency = (amount: number | string) => {
-        return new Intl.NumberFormat("pt-PT", {
-            style: "currency",
-            currency: "EUR",
-        }).format(Number(amount));
-    };
 
     const monthNames = [
         "January",
@@ -339,7 +333,7 @@ export default function HistoryClient() {
                                                     ? "+"
                                                     : "-"}
                                                 {formatCurrency(
-                                                    transaction.amount,
+                                                    Number(transaction.amount),
                                                 )}
                                             </div>
                                         </td>

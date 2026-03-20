@@ -16,6 +16,7 @@ import { format } from "date-fns";
 import { useApi } from "@/hooks/useApi";
 import TransactionFormModal from "./TransactionFormModal";
 import ExportCsvButton from "./ExportCsvButton";
+import { formatCurrency } from "@/app/utils/currency";
 
 interface Category {
     id: string;
@@ -122,13 +123,6 @@ export default function TransactionsClient() {
             selectedYear === "all" || d.getFullYear() === selectedYear;
         return matchMonth && matchYear;
     });
-
-    const formatCurrency = (amount: string | number) => {
-        return new Intl.NumberFormat("pt-PT", {
-            style: "currency",
-            currency: "EUR",
-        }).format(Number(amount));
-    };
 
     return (
         <div className="space-y-6">
@@ -307,7 +301,7 @@ export default function TransactionsClient() {
                                                     ? "+"
                                                     : "-"}
                                                 {formatCurrency(
-                                                    transaction.amount,
+                                                    Number(transaction.amount),
                                                 )}
                                             </div>
                                         </td>

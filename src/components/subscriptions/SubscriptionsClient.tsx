@@ -15,6 +15,7 @@ import { useApi } from "@/hooks/useApi";
 import SubscriptionFormModal from "./SubscriptionFormModal";
 import ConfirmModal from "@/components/ui/ConfirmModal";
 import toast from "react-hot-toast";
+import { formatCurrency } from "@/app/utils/currency";
 
 interface Category {
     id: string;
@@ -133,13 +134,6 @@ export default function SubscriptionsClient() {
         } finally {
             setSubscriptionToLog(null);
         }
-    };
-
-    const formatCurrency = (val: string | number) => {
-        return new Intl.NumberFormat("pt-PT", {
-            style: "currency",
-            currency: "EUR",
-        }).format(Number(val));
     };
 
     const { monthlyTotal, yearlyTotal, activeCount } = useMemo(() => {
@@ -342,7 +336,7 @@ export default function SubscriptionsClient() {
                                 <div className="mt-5 flex items-end justify-between">
                                     <div>
                                         <p className="text-2xl font-bold text-slate-900 dark:text-white">
-                                            {formatCurrency(sub.amount)}
+                                            {formatCurrency(Number(sub.amount))}
                                         </p>
                                         <p className="text-sm text-slate-500 dark:text-slate-400">
                                             per{" "}

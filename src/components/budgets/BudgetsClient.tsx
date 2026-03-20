@@ -6,6 +6,7 @@ import { useApi } from "@/hooks/useApi";
 import { format } from "date-fns";
 import BudgetFormModal from "./BudgetFormModal";
 import ConfirmModal from "@/components/ui/ConfirmModal";
+import { formatCurrency } from "@/app/utils/currency";
 
 type Category = {
     id: string;
@@ -102,13 +103,6 @@ export default function BudgetsClient() {
             };
         },
     );
-
-    const formatCurrency = (amount: number) => {
-        return new Intl.NumberFormat("pt-PT", {
-            style: "currency",
-            currency: "EUR",
-        }).format(amount);
-    };
 
     const handleOpenModal = (budget?: Budget) => {
         setEditingBudget(budget || null);

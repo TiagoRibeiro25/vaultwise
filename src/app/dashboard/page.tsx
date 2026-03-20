@@ -8,6 +8,7 @@ import { ArrowUpRight, ArrowDownRight, Euro, Wallet } from "lucide-react";
 import { startOfMonth, endOfMonth, format, subMonths } from "date-fns";
 import MonthlyBarChart from "@/components/dashboard/MonthlyBarChart";
 import CategoryPieChart from "@/components/dashboard/CategoryPieChart";
+import { formatCurrency } from "../utils/currency";
 
 export default async function DashboardPage() {
     const session = await getServerSession(authOptions);
@@ -52,14 +53,6 @@ export default async function DashboardPage() {
         .reduce((sum, t) => sum + Number(t.amount), 0);
 
     const balance = totalIncome - totalExpense;
-
-    // Format currency
-    const formatCurrency = (amount: number) => {
-        return new Intl.NumberFormat("pt-PT", {
-            style: "currency",
-            currency: "EUR",
-        }).format(amount);
-    };
 
     return (
         <div className="space-y-6">
