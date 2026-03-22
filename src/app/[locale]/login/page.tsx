@@ -1,27 +1,42 @@
 "use client";
 
 import { useState } from "react";
+import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { useApi } from "@/hooks/useApi";
+import { useTranslations } from "next-intl";
 
-export default function RegisterPage() {
+export default function LoginPage() {
+    const t = useTranslations("Auth");
     const router = useRouter();
-    const [name, setName] = useState<string>("");
     const [email, setEmail] = useState<string>("");
     const [password, setPassword] = useState<string>("");
+    const [error, setError] = useState<string>("");
+    const [loading, setLoading] = useState<boolean>(false);
 
-    const { execute, isLoading, error } = useApi({
-        url: "/api/auth/register",
-        method: "POST",
-        onSuccess: () => {
-            router.push("/login?registered=true");
-        },
-    });
-
-    const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e: React.SubmitEvent) => {
         e.preventDefault();
-        await execute({ name, email, password });
+        setLoading(true);
+        setError("");
+
+        try {
+            const res = await signIn("credentials", {
+                email,
+                password,
+                redirect: false,
+            });
+
+            if (res?.error) {
+                setError(t("invalidCredentials"));
+            } else {
+                router.push("/dashboard");
+                router.refresh();
+            }
+        } catch {
+            setError(t("genericError"));
+        } finally {
+            setLoading(false);
+        }
     };
 
     return (
@@ -29,10 +44,10 @@ export default function RegisterPage() {
             <div className="w-full max-w-md space-y-8 rounded-2xl bg-white p-8 shadow-xl shadow-slate-200/50 border border-slate-100 dark:border-slate-800 dark:bg-slate-900 dark:shadow-none">
                 <div className="text-center">
                     <h2 className="mt-6 text-3xl font-bold tracking-tight text-slate-900 dark:text-white">
-                        Create an account
+                        {t("signInTitle")}
                     </h2>
                     <p className="mt-2 text-sm text-slate-600 dark:text-slate-400">
-                        Join Vaultwise to manage your finances
+                        {t("signInSubtitle")}
                     </p>
                 </div>
 
@@ -46,28 +61,10 @@ export default function RegisterPage() {
                     <div className="space-y-4">
                         <div>
                             <label
-                                htmlFor="name"
-                                className="block text-sm font-medium leading-6 text-slate-900 dark:text-slate-300 mb-2"
-                            >
-                                Full Name
-                            </label>
-                            <input
-                                id="name"
-                                name="name"
-                                type="text"
-                                required
-                                value={name}
-                                onChange={(e) => setName(e.target.value)}
-                                className="block w-full rounded-lg border-0 py-2.5 px-3 text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 placeholder:text-slate-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 dark:bg-slate-950 dark:text-white dark:ring-slate-700 dark:focus:ring-indigo-500"
-                                placeholder="John Doe"
-                            />
-                        </div>
-                        <div>
-                            <label
                                 htmlFor="email"
                                 className="block text-sm font-medium leading-6 text-slate-900 dark:text-slate-300 mb-2"
                             >
-                                Email address
+                                {t("emailLabel")}
                             </label>
                             <input
                                 id="email"
@@ -86,13 +83,13 @@ export default function RegisterPage() {
                                 htmlFor="password"
                                 className="block text-sm font-medium leading-6 text-slate-900 dark:text-slate-300 mb-2"
                             >
-                                Password
+                                {t("passwordLabel")}
                             </label>
                             <input
                                 id="password"
                                 name="password"
                                 type="password"
-                                autoComplete="new-password"
+                                autoComplete="current-password"
                                 required
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
@@ -105,23 +102,23 @@ export default function RegisterPage() {
                     <div>
                         <button
                             type="submit"
-                            disabled={isLoading}
+                            disabled={loading}
                             className="flex w-full justify-center rounded-lg bg-indigo-600 px-3 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors dark:bg-indigo-500 dark:hover:bg-indigo-400 cursor-pointer"
                         >
-                            {isLoading ? "Creating account..." : "Sign up"}
+                            {loading ? t("signingIn") : t("signInButton")}
                         </button>
                     </div>
                 </form>
 
                 <div className="text-center text-sm">
                     <span className="text-slate-500 dark:text-slate-400">
-                        Already have an account?{" "}
+                        {t("noAccount")}{" "}
                     </span>
                     <Link
-                        href="/login"
+                        href="/register"
                         className="font-semibold text-indigo-600 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300 transition-colors"
                     >
-                        Sign in here
+                        {t("registerLink")}
                     </Link>
                 </div>
             </div>

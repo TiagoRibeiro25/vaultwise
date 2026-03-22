@@ -6,7 +6,7 @@ import { useApi } from "@/hooks/useApi";
 import { format } from "date-fns";
 import BudgetFormModal from "./BudgetFormModal";
 import ConfirmModal from "@/components/ui/ConfirmModal";
-import { formatCurrency } from "@/app/utils/currency";
+import { formatCurrency } from "@/app/[locale]/utils/currency";
 
 type Category = {
     id: string;

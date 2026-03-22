@@ -1,0 +1,56 @@
+{
+    "Common": {
+        "loading": "Loading...",
+        "error": "An error occurred.",
+        "save": "Save",
+        "cancel": "Cancel",
+        "submit": "Submit"
+    },
+    "Navigation": {
+        "dashboard": "Dashboard",
+        "transactions": "Transactions",
+        "categories": "Categories",
+        "budgets": "Budgets",
+        "subscriptions": "Subscriptions",
+        "history": "History",
+        "settings": "Settings",
+        "login": "Log In",
+        "register": "Sign Up",
+        "logout": "Log Out"
+    },
+    "Dashboard": {
+        "title": "Dashboard",
+        "welcome": "Welcome back",
+        "totalBalance": "Total Balance",
+        "income": "Income",
+        "expenses": "Expenses",
+        "recentTransactions": "Recent Transactions",
+        "viewAll": "View All"
+    },
+    "Auth": {
+        "loginTitle": "Welcome back to Vaultwise",
+        "registerTitle": "Create your Vaultwise account",
+        "emailLabel": "Email address",
+        "passwordLabel": "Password",
+        "signInTitle": "Sign in to Vaultwise",
+        "signInSubtitle": "Manage your personal finances modernly",
+        "invalidCredentials": "Invalid email or password",
+        "genericError": "An error occurred. Please try again.",
+        "signingIn": "Signing in...",
+        "signInButton": "Sign in",
+        "noAccount": "Don't have an account?",
+        "registerLink": "Register here",
+        "signUpTitle": "Create an account",
+        "signUpSubtitle": "Join Vaultwise to manage your finances",
+        "nameLabel": "Full Name",
+        "signingUp": "Creating account...",
+        "signUpButton": "Sign up",
+        "hasAccount": "Already have an account?",
+        "loginLink": "Sign in here"
+    },
+    "Logout": {
+        "button": "Log out",
+        "title": "Confirm Logout",
+        "message": "Are you sure you want to log out of your account? You will need to sign in again to access your financial dashboard."
+    }
+}

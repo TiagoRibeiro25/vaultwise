@@ -11,7 +11,9 @@ import {
 } from "lucide-react";
 import LogoutButton from "@/components/auth/LogoutButton";
 import ThemeToggle from "@/components/layout/ThemeToggle";
+import LanguageSwitcher from "@/components/layout/LanguageSwitcher";
 import { usePathname } from "next/navigation";
+import { useTranslations } from "next-intl";
 
 interface SidebarProps {
     user: {
@@ -22,6 +24,7 @@ interface SidebarProps {
 
 export default function Sidebar({ user }: SidebarProps) {
     const pathName = usePathname();
+    const t = useTranslations("Navigation");
 
     return (
         <aside className="hidden w-64 flex-col border-r border-slate-200 bg-white dark:border-slate-800 dark:bg-slate-950 sm:flex">
@@ -42,7 +45,7 @@ export default function Sidebar({ user }: SidebarProps) {
                     }
                 >
                     <Home className="h-5 w-5" />
-                    Dashboard
+                    {t("dashboard")}
                 </Link>
                 <Link
                     href="/dashboard/transactions"
@@ -54,7 +57,7 @@ export default function Sidebar({ user }: SidebarProps) {
                     }
                 >
                     <CreditCard className="h-5 w-5 text-slate-400 dark:text-slate-500" />
-                    Transactions
+                    {t("transactions")}
                 </Link>
                 <Link
                     href="/dashboard/categories"
@@ -66,7 +69,7 @@ export default function Sidebar({ user }: SidebarProps) {
                     }
                 >
                     <Tag className="h-5 w-5 text-slate-400 dark:text-slate-500" />
-                    Categories
+                    {t("categories")}
                 </Link>
                 <Link
                     href="/dashboard/budgets"
@@ -78,7 +81,7 @@ export default function Sidebar({ user }: SidebarProps) {
                     }
                 >
                     <PieChart className="h-5 w-5 text-slate-400 dark:text-slate-500" />
-                    Budgets
+                    {t("budgets")}
                 </Link>
                 <Link
                     href="/dashboard/subscriptions"
@@ -90,7 +93,7 @@ export default function Sidebar({ user }: SidebarProps) {
                     }
                 >
                     <RefreshCw className="h-5 w-5 text-slate-400 dark:text-slate-500" />
-                    Subscriptions
+                    {t("subscriptions")}
                 </Link>
                 <Link
                     href="/dashboard/history"
@@ -102,7 +105,7 @@ export default function Sidebar({ user }: SidebarProps) {
                     }
                 >
                     <History className="h-5 w-5 text-slate-400 dark:text-slate-500" />
-                    History
+                    {t("history")}
                 </Link>
             </nav>
 
@@ -126,6 +129,7 @@ export default function Sidebar({ user }: SidebarProps) {
                     </div>
                 </Link>
                 <div className="flex flex-col gap-2 px-2">
+                    <LanguageSwitcher />
                     <ThemeToggle />
                     <LogoutButton />
                 </div>

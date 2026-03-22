@@ -16,7 +16,7 @@ import { format } from "date-fns";
 import { useApi } from "@/hooks/useApi";
 import TransactionFormModal from "./TransactionFormModal";
 import ExportCsvButton from "./ExportCsvButton";
-import { formatCurrency } from "@/app/utils/currency";
+import { formatCurrency } from "@/app/[locale]/utils/currency";
 
 interface Category {
     id: string;

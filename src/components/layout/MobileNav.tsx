@@ -15,6 +15,8 @@ import {
 } from "lucide-react";
 import LogoutButton from "@/components/auth/LogoutButton";
 import ThemeToggle from "@/components/layout/ThemeToggle";
+import LanguageSwitcher from "@/components/layout/LanguageSwitcher";
+import { useTranslations } from "next-intl";
 
 interface MobileNavProps {
     user: {
@@ -25,6 +27,7 @@ interface MobileNavProps {
 
 export default function MobileNav({ user }: MobileNavProps) {
     const pathname = usePathname();
+    const t = useTranslations("Navigation");
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const [savedPathname, setSavedPathname] = useState<string>(pathname);
 
@@ -102,7 +105,7 @@ export default function MobileNav({ user }: MobileNavProps) {
                                                 : "text-slate-400 group-hover:text-indigo-600 dark:text-slate-500 dark:group-hover:text-white"
                                         }`}
                                     />
-                                    Dashboard
+                                    {t("dashboard")}
                                 </Link>
                                 <Link
                                     href="/dashboard/transactions"
@@ -121,7 +124,7 @@ export default function MobileNav({ user }: MobileNavProps) {
                                                 : "text-slate-400 group-hover:text-indigo-600 dark:text-slate-500 dark:group-hover:text-white"
                                         }`}
                                     />
-                                    Transactions
+                                    {t("transactions")}
                                 </Link>
                                 <Link
                                     href="/dashboard/categories"
@@ -139,7 +142,7 @@ export default function MobileNav({ user }: MobileNavProps) {
                                                 : "text-slate-400 group-hover:text-indigo-600 dark:text-slate-500 dark:group-hover:text-white"
                                         }`}
                                     />
-                                    Categories
+                                    {t("categories")}
                                 </Link>
                                 <Link
                                     href="/dashboard/budgets"
@@ -157,7 +160,7 @@ export default function MobileNav({ user }: MobileNavProps) {
                                                 : "text-slate-400 group-hover:text-indigo-600 dark:text-slate-500 dark:group-hover:text-white"
                                         }`}
                                     />
-                                    Budgets
+                                    {t("budgets")}
                                 </Link>
                                 <Link
                                     href="/dashboard/subscriptions"
@@ -176,7 +179,7 @@ export default function MobileNav({ user }: MobileNavProps) {
                                                 : "text-slate-400 group-hover:text-indigo-600 dark:text-slate-500 dark:group-hover:text-white"
                                         }`}
                                     />
-                                    Subscriptions
+                                    {t("subscriptions")}
                                 </Link>
                                 <Link
                                     href="/dashboard/history"
@@ -194,7 +197,7 @@ export default function MobileNav({ user }: MobileNavProps) {
                                                 : "text-slate-400 group-hover:text-indigo-600 dark:text-slate-500 dark:group-hover:text-white"
                                         }`}
                                     />
-                                    History
+                                    {t("history")}
                                 </Link>
                             </nav>
                         </div>
@@ -218,6 +221,7 @@ export default function MobileNav({ user }: MobileNavProps) {
                                 </div>
                             </Link>
                             <div className="flex flex-col gap-2 px-2">
+                                <LanguageSwitcher />
                                 <ThemeToggle />
                                 <LogoutButton />
                             </div>

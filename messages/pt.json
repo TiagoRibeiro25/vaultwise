@@ -1,0 +1,56 @@
+{
+    "Common": {
+        "loading": "Carregando...",
+        "error": "Ocorreu um erro.",
+        "save": "Salvar",
+        "cancel": "Cancelar",
+        "submit": "Enviar"
+    },
+    "Navigation": {
+        "dashboard": "Painel",
+        "transactions": "Transações",
+        "categories": "Categorias",
+        "budgets": "Orçamentos",
+        "subscriptions": "Assinaturas",
+        "history": "Histórico",
+        "settings": "Configurações",
+        "login": "Entrar",
+        "register": "Criar conta",
+        "logout": "Sair"
+    },
+    "Dashboard": {
+        "title": "Painel",
+        "welcome": "Bem-vindo de volta",
+        "totalBalance": "Saldo Total",
+        "income": "Receitas",
+        "expenses": "Despesas",
+        "recentTransactions": "Transações Recentes",
+        "viewAll": "Ver Tudo"
+    },
+    "Auth": {
+        "loginTitle": "Bem-vindo de volta ao Vaultwise",
+        "registerTitle": "Crie sua conta no Vaultwise",
+        "emailLabel": "Endereço de e-mail",
+        "passwordLabel": "Senha",
+        "signInTitle": "Entrar no Vaultwise",
+        "signInSubtitle": "Gerencie suas finanças pessoais de forma moderna",
+        "invalidCredentials": "E-mail ou senha inválidos",
+        "genericError": "Ocorreu um erro. Tente novamente.",
+        "signingIn": "Entrando...",
+        "signInButton": "Entrar",
+        "noAccount": "Não tem uma conta?",
+        "registerLink": "Registre-se aqui",
+        "signUpTitle": "Criar uma conta",
+        "signUpSubtitle": "Junte-se ao Vaultwise para gerenciar suas finanças",
+        "nameLabel": "Nome Completo",
+        "signingUp": "Criando conta...",
+        "signUpButton": "Criar conta",
+        "hasAccount": "Já tem uma conta?",
+        "loginLink": "Entre aqui"
+    },
+    "Logout": {
+        "button": "Sair",
+        "title": "Confirmar Logout",
+        "message": "Tem certeza de que deseja sair da sua conta? Você precisará fazer login novamente para acessar seu painel financeiro."
+    }
+}

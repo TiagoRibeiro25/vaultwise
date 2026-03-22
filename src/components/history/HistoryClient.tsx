@@ -10,7 +10,7 @@ import {
     Wallet,
     Calendar,
 } from "lucide-react";
-import { formatCurrency } from "@/app/utils/currency";
+import { formatCurrency } from "@/app/[locale]/utils/currency";
 import { MONTH_NAMES } from "@/constants/months";
 
 interface Category {

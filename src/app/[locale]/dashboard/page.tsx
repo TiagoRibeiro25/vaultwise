@@ -24,6 +24,7 @@ import CategoryPieChart from "@/components/dashboard/CategoryPieChart";
 import { formatCurrency } from "../utils/currency";
 import Link from "next/link";
 import DateRangeFilter from "@/components/dashboard/DateRangeFilter";
+import { getTranslations } from "next-intl/server";
 
 export const dynamic = "force-dynamic";
 
@@ -32,6 +33,7 @@ export default async function DashboardPage({
 }: {
     searchParams: Promise<{ range?: string }>;
 }) {
+    const t = await getTranslations("Dashboard");
     const session = await getServerSession(authOptions);
 
     if (!session?.user?.id) {
@@ -88,10 +90,10 @@ export default async function DashboardPage({
             <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                 <div>
                     <h1 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white">
-                        Dashboard
+                        {t("title")}
                     </h1>
                     <p className="text-sm text-slate-500 dark:text-slate-400">
-                        Welcome back, {session.user.name}. Here&apos;s your
+                        {t("welcome")}, {session.user.name}. Here&apos;s your
                         financial overview.
                     </p>
                 </div>
@@ -105,7 +107,7 @@ export default async function DashboardPage({
                 <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900">
                     <div className="flex items-center justify-between pb-2">
                         <h3 className="text-sm font-medium text-slate-500 dark:text-slate-400">
-                            Total Balance
+                            {t("totalBalance")}
                         </h3>
                         <div className="rounded-full bg-indigo-50 p-2 dark:bg-indigo-500/10">
                             <Wallet className="h-4 w-4 text-indigo-600 dark:text-indigo-400" />
@@ -119,7 +121,7 @@ export default async function DashboardPage({
                 <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900">
                     <div className="flex items-center justify-between pb-2">
                         <h3 className="text-sm font-medium text-slate-500 dark:text-slate-400">
-                            Total Income
+                            {t("income")}
                         </h3>
                         <div className="rounded-full bg-emerald-50 p-2 dark:bg-emerald-500/10">
                             <ArrowUpRight className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
@@ -133,7 +135,7 @@ export default async function DashboardPage({
                 <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900">
                     <div className="flex items-center justify-between pb-2">
                         <h3 className="text-sm font-medium text-slate-500 dark:text-slate-400">
-                            Total Expenses
+                            {t("expenses")}
                         </h3>
                         <div className="rounded-full bg-red-50 p-2 dark:bg-red-500/10">
                             <ArrowDownRight className="h-4 w-4 text-red-600 dark:text-red-400" />
@@ -204,13 +206,13 @@ export default async function DashboardPage({
             <div className="rounded-xl border border-slate-200 bg-white shadow-sm dark:border-slate-800 dark:bg-slate-900">
                 <div className="flex items-center justify-between border-b border-slate-200 px-6 py-4 dark:border-slate-800">
                     <h2 className="text-lg font-semibold text-slate-900 dark:text-white">
-                        Recent Transactions
+                        {t("recentTransactions")}
                     </h2>
                     <Link
                         href="/dashboard/history"
                         className="flex items-center text-sm font-medium text-indigo-600 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300"
                     >
-                        View All
+                        {t("viewAll")}
                         <ChevronRight className="ml-1 h-4 w-4" />
                     </Link>
                 </div>

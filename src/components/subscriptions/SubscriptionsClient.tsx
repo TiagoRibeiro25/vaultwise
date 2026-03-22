@@ -15,7 +15,7 @@ import { useApi } from "@/hooks/useApi";
 import SubscriptionFormModal from "./SubscriptionFormModal";
 import ConfirmModal from "@/components/ui/ConfirmModal";
 import toast from "react-hot-toast";
-import { formatCurrency } from "@/app/utils/currency";
+import { formatCurrency } from "@/app/[locale]/utils/currency";
 
 interface Category {
     id: string;
