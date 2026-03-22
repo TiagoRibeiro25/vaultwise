@@ -1,6 +1,7 @@
 "use client";
 
 import { X } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 interface ConfirmModalProps {
     isOpen: boolean;
@@ -17,12 +18,14 @@ export default function ConfirmModal({
     isOpen,
     title,
     message,
-    confirmText = "Confirm",
-    cancelText = "Cancel",
+    confirmText,
+    cancelText,
     onConfirm,
     onCancel,
     isDestructive = false,
 }: ConfirmModalProps) {
+    const t = useTranslations("Common");
+
     if (!isOpen) return null;
 
     return (
@@ -58,7 +61,7 @@ export default function ConfirmModal({
                         onClick={onCancel}
                         className="inline-flex flex-1 justify-center rounded-lg border border-slate-200 bg-white px-4 py-2.5 text-sm font-medium text-slate-700 hover:bg-slate-50 hover:text-slate-900 focus:outline-none focus:ring-2 focus:ring-slate-200 transition-colors dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700 dark:hover:text-white cursor-pointer"
                     >
-                        {cancelText}
+                        {cancelText || t("cancel")}
                     </button>
                     <button
                         type="button"
@@ -69,7 +72,7 @@ export default function ConfirmModal({
                                 : "bg-indigo-600 hover:bg-indigo-700 focus:ring-indigo-500 dark:hover:bg-indigo-500"
                         }`}
                     >
-                        {confirmText}
+                        {confirmText || t("submit")}
                     </button>
                 </div>
             </div>

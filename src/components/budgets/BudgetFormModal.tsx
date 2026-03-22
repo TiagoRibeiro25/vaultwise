@@ -4,6 +4,7 @@ import { useState } from "react";
 import { X } from "lucide-react";
 import { useApi } from "@/hooks/useApi";
 import toast from "react-hot-toast";
+import { useTranslations } from "next-intl";
 
 type Category = {
     id: string;
@@ -38,6 +39,9 @@ export default function BudgetFormModal({
     currentMonth,
     currentYear,
 }: BudgetFormModalProps) {
+    const t = useTranslations("Budgets");
+    const tCommon = useTranslations("Common");
+    const tTrans = useTranslations("Transactions");
     const [categoryId, setCategoryId] = useState<string>("");
     const [amount, setAmount] = useState<string>("");
 
@@ -85,7 +89,7 @@ export default function BudgetFormModal({
         e.preventDefault();
 
         if (!categoryId) {
-            toast.error("Please select a category.");
+            toast.error(tTrans("selectCategory"));
             return;
         }
 
@@ -107,7 +111,7 @@ export default function BudgetFormModal({
             <div className="relative z-10 w-full max-w-md rounded-xl bg-white p-6 shadow-xl dark:bg-slate-900">
                 <div className="flex items-center justify-between mb-4">
                     <h2 className="text-xl font-bold text-slate-900 dark:text-white">
-                        {budgetToEdit ? "Edit Budget" : "Add Budget"}
+                        {budgetToEdit ? t("editBudget") : t("newBudget")}
                     </h2>
                     <button
                         onClick={onClose}
@@ -133,7 +137,7 @@ export default function BudgetFormModal({
                             htmlFor="category"
                             className="mb-1 block text-sm font-medium text-slate-700 dark:text-slate-300"
                         >
-                            Category
+                            {t("category")}
                         </label>
                         <select
                             id="category"
@@ -144,7 +148,7 @@ export default function BudgetFormModal({
                             required
                         >
                             <option value="" disabled>
-                                Select a category
+                                {tTrans("selectCategory")}
                             </option>
                             {(categories || []).map((cat) => (
                                 <option key={cat.id} value={cat.id}>
@@ -159,7 +163,7 @@ export default function BudgetFormModal({
                             htmlFor="amount"
                             className="mb-1 block text-sm font-medium text-slate-700 dark:text-slate-300"
                         >
-                            Budget Amount
+                            {t("amount")}
                         </label>
                         <div className="relative">
                             <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
@@ -187,7 +191,7 @@ export default function BudgetFormModal({
                             onClick={onClose}
                             className="rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700 cursor-pointer"
                         >
-                            Cancel
+                            {tCommon("cancel")}
                         </button>
                         <button
                             type="submit"
@@ -195,7 +199,7 @@ export default function BudgetFormModal({
                             disabled={isLoading}
                             className="rounded-lg bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-50 dark:hover:bg-indigo-500 cursor-pointer"
                         >
-                            {isLoading ? "Saving..." : "Save Budget"}
+                            {isLoading ? t("saving") : t("saveBudget")}
                         </button>
                     </div>
                 </form>

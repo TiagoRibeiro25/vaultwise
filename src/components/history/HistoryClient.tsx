@@ -1,9 +1,10 @@
 "use client";
 
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 
 import { useState, useEffect, useMemo } from "react";
 import { format } from "date-fns";
+import { pt, enUS } from "date-fns/locale";
 import { useApi } from "@/hooks/useApi";
 import {
     ArrowUpRight,
@@ -13,7 +14,6 @@ import {
     Calendar,
 } from "lucide-react";
 import { formatCurrency } from "@/app/[locale]/utils/currency";
-import { MONTH_NAMES } from "@/constants/months";
 
 interface Category {
     id: string;
@@ -33,6 +33,11 @@ interface Transaction {
 }
 
 export default function HistoryClient() {
+    const t = useTranslations("History");
+    const tCommon = useTranslations("Common");
+    const locale = useLocale();
+    const dateLocale = locale === "pt" ? pt : enUS;
+
     const [selectedYear, setSelectedYear] = useState<number>(
         new Date().getFullYear(),
     );
@@ -131,10 +136,10 @@ export default function HistoryClient() {
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                 <div>
                     <h1 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white">
-                        {useTranslations("History")("title")}
+                        {t("title")}
                     </h1>
                     <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
-                        {useTranslations("History")("subtitle")}
+                        {t("subtitle")}
                     </p>
                 </div>
 
@@ -149,7 +154,9 @@ export default function HistoryClient() {
                     >
                         {availableMonths.map((m) => (
                             <option key={m} value={m}>
-                                {MONTH_NAMES[m - 1]}
+                                {format(new Date(2000, m - 1), "MMMM", {
+                                    locale: dateLocale,
+                                })}
                             </option>
                         ))}
                     </select>
@@ -175,7 +182,7 @@ export default function HistoryClient() {
                 <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900">
                     <div className="flex items-center justify-between pb-2">
                         <h3 className="text-sm font-medium text-slate-500 dark:text-slate-400">
-                            Balance
+                            {t("balance")}
                         </h3>
                         <div className="rounded-full bg-indigo-50 p-2 dark:bg-indigo-500/10">
                             <Wallet className="h-4 w-4 text-indigo-600 dark:text-indigo-400" />
@@ -191,7 +198,7 @@ export default function HistoryClient() {
                 <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900">
                     <div className="flex items-center justify-between pb-2">
                         <h3 className="text-sm font-medium text-slate-500 dark:text-slate-400">
-                            Total Income
+                            {t("totalIncome")}
                         </h3>
                         <div className="rounded-full bg-emerald-50 p-2 dark:bg-emerald-500/10">
                             <ArrowUpRight className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
@@ -205,7 +212,7 @@ export default function HistoryClient() {
                 <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900">
                     <div className="flex items-center justify-between pb-2">
                         <h3 className="text-sm font-medium text-slate-500 dark:text-slate-400">
-                            Total Expenses
+                            {t("totalExpenses")}
                         </h3>
                         <div className="rounded-full bg-red-50 p-2 dark:bg-red-500/10">
                             <ArrowDownRight className="h-4 w-4 text-red-600 dark:text-red-400" />
@@ -220,8 +227,16 @@ export default function HistoryClient() {
             <div className="rounded-xl border border-slate-200 bg-white shadow-sm dark:border-slate-800 dark:bg-slate-900 overflow-hidden">
                 <div className="border-b border-slate-200 px-6 py-4 dark:border-slate-800">
                     <h2 className="text-lg font-semibold text-slate-900 dark:text-white">
-                        Transactions for {MONTH_NAMES[selectedMonth - 1]}{" "}
-                        {selectedYear}
+                        {t("transactionsFor", {
+                            month: format(
+                                new Date(2000, selectedMonth - 1),
+                                "MMMM",
+                                {
+                                    locale: dateLocale,
+                                },
+                            ),
+                            year: selectedYear,
+                        })}
                     </h2>
                 </div>
                 <div className="overflow-x-auto">
@@ -232,25 +247,25 @@ export default function HistoryClient() {
                                     scope="col"
                                     className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-slate-900 dark:text-slate-200 sm:pl-6"
                                 >
-                                    Date
+                                    {t("date")}
                                 </th>
                                 <th
                                     scope="col"
                                     className="px-3 py-3.5 text-left text-sm font-semibold text-slate-900 dark:text-slate-200"
                                 >
-                                    Description
+                                    {t("description")}
                                 </th>
                                 <th
                                     scope="col"
                                     className="px-3 py-3.5 text-left text-sm font-semibold text-slate-900 dark:text-slate-200"
                                 >
-                                    Category
+                                    {t("category")}
                                 </th>
                                 <th
                                     scope="col"
                                     className="px-3 py-3.5 text-right text-sm font-semibold text-slate-900 dark:text-slate-200 sm:pr-6"
                                 >
-                                    Amount
+                                    {t("amount")}
                                 </th>
                             </tr>
                         </thead>
@@ -261,7 +276,7 @@ export default function HistoryClient() {
                                         colSpan={4}
                                         className="py-12 text-center text-sm text-slate-500 dark:text-slate-400"
                                     >
-                                        Loading transactions...
+                                        {tCommon("loading")}
                                     </td>
                                 </tr>
                             ) : filteredTransactions.length === 0 ? (
@@ -274,10 +289,7 @@ export default function HistoryClient() {
                                             <div className="rounded-full bg-slate-50 p-3 dark:bg-slate-800 mb-3">
                                                 <Search className="h-6 w-6 text-slate-400" />
                                             </div>
-                                            <p>
-                                                No transactions found for this
-                                                period.
-                                            </p>
+                                            <p>{t("noHistory")}</p>
                                         </div>
                                     </td>
                                 </tr>
@@ -291,6 +303,7 @@ export default function HistoryClient() {
                                             {format(
                                                 new Date(transaction.date),
                                                 "MMM dd, yyyy",
+                                                { locale: dateLocale },
                                             )}
                                         </td>
                                         <td className="whitespace-nowrap px-3 py-4 text-sm font-medium text-slate-900 dark:text-slate-200">

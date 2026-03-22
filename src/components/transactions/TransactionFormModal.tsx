@@ -4,6 +4,7 @@ import { useState } from "react";
 import { X } from "lucide-react";
 import { useApi } from "@/hooks/useApi";
 import toast from "react-hot-toast";
+import { useTranslations } from "next-intl";
 
 interface Category {
     id: string;
@@ -34,6 +35,8 @@ export default function TransactionFormModal({
     onSuccess,
     transactionToEdit,
 }: TransactionFormModalProps) {
+    const t = useTranslations("Transactions");
+    const tCommon = useTranslations("Common");
     const [type, setType] = useState<"income" | "expense">("expense");
     const [amount, setAmount] = useState<string>("");
     const [description, setDescription] = useState<string>("");
@@ -98,7 +101,7 @@ export default function TransactionFormModal({
         e.preventDefault();
 
         if (!categoryId) {
-            toast.error("Please select a category.");
+            toast.error(t("selectCategory"));
             return;
         }
 
@@ -123,8 +126,8 @@ export default function TransactionFormModal({
                 <div className="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 px-6 py-4">
                     <h3 className="text-lg font-semibold leading-6 text-slate-900 dark:text-white">
                         {transactionToEdit
-                            ? "Edit Transaction"
-                            : "New Transaction"}
+                            ? t("editTransaction")
+                            : t("newTransaction")}
                     </h3>
                     <button
                         onClick={onClose}
@@ -157,7 +160,7 @@ export default function TransactionFormModal({
                                         : "text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-300 cursor-pointer"
                                 }`}
                             >
-                                Expense
+                                {t("expense")}
                             </button>
                             <button
                                 type="button"
@@ -168,7 +171,7 @@ export default function TransactionFormModal({
                                         : "text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-300 cursor-pointer"
                                 }`}
                             >
-                                Income
+                                {t("income")}
                             </button>
                         </div>
 
@@ -178,7 +181,7 @@ export default function TransactionFormModal({
                                 htmlFor="amount"
                                 className="block text-sm font-medium leading-6 text-slate-900 dark:text-slate-300 mb-2"
                             >
-                                Amount
+                                {t("amount")}
                             </label>
                             <div className="relative mt-2 rounded-lg shadow-sm">
                                 <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
@@ -207,7 +210,7 @@ export default function TransactionFormModal({
                                 htmlFor="description"
                                 className="block text-sm font-medium leading-6 text-slate-900 dark:text-slate-300 mb-2"
                             >
-                                Description
+                                {t("description")}
                             </label>
                             <input
                                 type="text"
@@ -229,7 +232,7 @@ export default function TransactionFormModal({
                                     htmlFor="date"
                                     className="block text-sm font-medium leading-6 text-slate-900 dark:text-slate-300 mb-2"
                                 >
-                                    Date
+                                    {t("date")}
                                 </label>
                                 <input
                                     type="date"
@@ -248,7 +251,7 @@ export default function TransactionFormModal({
                                     htmlFor="categoryId"
                                     className="block text-sm font-medium leading-6 text-slate-900 dark:text-slate-300 mb-2"
                                 >
-                                    Category
+                                    {t("category")}
                                 </label>
                                 <select
                                     id="categoryId"
@@ -261,7 +264,7 @@ export default function TransactionFormModal({
                                     className="block w-full rounded-lg border-0 py-2.5 px-3 text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 dark:bg-slate-950 dark:text-white dark:ring-slate-700 dark:focus:ring-indigo-500"
                                 >
                                     <option value="" disabled>
-                                        Select a category
+                                        {t("selectCategory")}
                                     </option>
                                     {categories?.map((cat) => (
                                         <option key={cat.id} value={cat.id}>
@@ -280,7 +283,7 @@ export default function TransactionFormModal({
                         onClick={onClose}
                         className="inline-flex justify-center rounded-lg border border-slate-200 bg-white px-4 py-2.5 text-sm font-medium text-slate-700 hover:bg-slate-50 hover:text-slate-900 focus:outline-none focus:ring-2 focus:ring-slate-200 transition-colors dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700 dark:hover:text-white cursor-pointer"
                     >
-                        Cancel
+                        {tCommon("cancel")}
                     </button>
                     <button
                         type="submit"
@@ -288,7 +291,7 @@ export default function TransactionFormModal({
                         disabled={isLoading}
                         className="inline-flex justify-center rounded-lg border border-transparent bg-indigo-600 px-4 py-2.5 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition-colors disabled:opacity-50 disabled:cursor-not-allowed dark:bg-indigo-500 dark:hover:bg-indigo-400 dark:focus:ring-offset-slate-900 cursor-pointer"
                     >
-                        {isLoading ? "Saving..." : "Save Transaction"}
+                        {isLoading ? t("saving") : t("saveTransaction")}
                     </button>
                 </div>
             </div>

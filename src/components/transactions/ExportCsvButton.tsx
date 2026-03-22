@@ -1,5 +1,6 @@
 import { Download } from "lucide-react";
 import type { FC } from "react";
+import { useTranslations } from "next-intl";
 import { Transaction } from "./TransactionsClient";
 import { format } from "date-fns";
 import toast from "react-hot-toast";
@@ -11,6 +12,8 @@ interface ExportCsvButtonProps {
 const ExportCsvButton: FC<ExportCsvButtonProps> = ({
     filteredTransactions,
 }) => {
+    const t = useTranslations("Transactions");
+
     const handleExportCSV = () => {
         if (!filteredTransactions || filteredTransactions.length === 0) {
             toast.error("No transactions to export.");
@@ -57,7 +60,7 @@ const ExportCsvButton: FC<ExportCsvButtonProps> = ({
             className="flex items-center gap-2 rounded-lg bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-slate-600 transition-colors dark:bg-slate-800 dark:text-slate-200 dark:ring-slate-700 dark:hover:bg-slate-700 cursor-pointer"
         >
             <Download className="h-5 w-5" />
-            Export
+            {t("export")}
         </button>
     );
 };

@@ -1,6 +1,8 @@
 "use client";
 
 import { useMemo } from "react";
+import { useTranslations, useLocale } from "next-intl";
+import { pt, enUS } from "date-fns/locale";
 import {
     BarChart,
     Bar,
@@ -31,6 +33,7 @@ interface CustomTooltipProps {
 }
 
 const CustomTooltip = ({ active, payload, label }: CustomTooltipProps) => {
+    const locale = useLocale();
     if (active && payload && payload.length) {
         return (
             <div className="rounded-xl border border-slate-200 bg-white/95 p-3 shadow-lg backdrop-blur-md dark:border-slate-800 dark:bg-slate-950/95">
@@ -53,10 +56,13 @@ const CustomTooltip = ({ active, payload, label }: CustomTooltipProps) => {
                             </span>
                         </div>
                         <span className="font-semibold text-slate-900 dark:text-slate-100">
-                            {new Intl.NumberFormat("pt-PT", {
-                                style: "currency",
-                                currency: "EUR",
-                            }).format(entry.value || 0)}
+                            {new Intl.NumberFormat(
+                                locale === "pt" ? "pt-PT" : "en-US",
+                                {
+                                    style: "currency",
+                                    currency: "EUR",
+                                },
+                            ).format(entry.value || 0)}
                         </span>
                     </div>
                 ))}
@@ -69,6 +75,10 @@ const CustomTooltip = ({ active, payload, label }: CustomTooltipProps) => {
 export default function MonthlyBarChart({
     transactions,
 }: MonthlyBarChartProps) {
+    const t = useTranslations("Dashboard");
+    const locale = useLocale();
+    const dateLocale = locale === "pt" ? pt : enUS;
+
     const data = useMemo(() => {
         if (!transactions || transactions.length === 0) {
             return [];
@@ -101,12 +111,12 @@ export default function MonthlyBarChart({
                 .reduce((sum, t) => sum + Number(t.amount), 0);
 
             return {
-                name: format(month, "MMM yy"),
-                Income: income,
-                Expense: expense,
+                name: format(month, "MMM yy", { locale: dateLocale }),
+                [t("income")]: income,
+                [t("expenses")]: expense,
             };
         });
-    }, [transactions]);
+    }, [transactions, t, dateLocale]);
 
     return (
         <div className="h-80 w-full">
@@ -150,13 +160,13 @@ export default function MonthlyBarChart({
                         wrapperStyle={{ fontSize: "13px", paddingTop: "20px" }}
                     />
                     <Bar
-                        dataKey="Income"
+                        dataKey={t("income")}
                         fill="#10b981"
                         radius={[4, 4, 0, 0]}
                         maxBarSize={40}
                     />
                     <Bar
-                        dataKey="Expense"
+                        dataKey={t("expenses")}
                         fill="#f43f5e"
                         radius={[4, 4, 0, 0]}
                         maxBarSize={40}

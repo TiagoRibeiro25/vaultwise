@@ -13,11 +13,12 @@ import {
     Search,
 } from "lucide-react";
 import { format } from "date-fns";
+import { pt, enUS } from "date-fns/locale";
 import { useApi } from "@/hooks/useApi";
 import TransactionFormModal from "./TransactionFormModal";
 import ExportCsvButton from "./ExportCsvButton";
 import { formatCurrency } from "@/app/[locale]/utils/currency";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 
 interface Category {
     id: string;
@@ -38,6 +39,8 @@ export interface Transaction {
 
 export default function TransactionsClient() {
     const t = useTranslations("Transactions");
+    const locale = useLocale();
+    const dateLocale = locale === "pt" ? pt : enUS;
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
     const [transactionToEdit, setTransactionToEdit] =
         useState<Transaction | null>(null);
@@ -149,11 +152,13 @@ export default function TransactionsClient() {
                         }
                         className="rounded-lg border border-slate-300 bg-white px-3 py-2.5 text-sm text-slate-700 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200 cursor-pointer"
                     >
-                        <option value="all">All Months</option>
+                        <option value="all">{t("allMonths")}</option>
                         {Array.from({ length: 12 }, (_, i) => i + 1).map(
                             (m) => (
                                 <option key={m} value={m}>
-                                    {format(new Date(2000, m - 1), "MMMM")}
+                                    {format(new Date(2000, m - 1), "MMMM", {
+                                        locale: dateLocale,
+                                    })}
                                 </option>
                             ),
                         )}
@@ -169,7 +174,7 @@ export default function TransactionsClient() {
                         }
                         className="rounded-lg border border-slate-300 bg-white px-3 py-2.5 text-sm text-slate-700 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200 cursor-pointer"
                     >
-                        <option value="all">All Years</option>
+                        <option value="all">{t("allYears")}</option>
                         {Array.from(
                             { length: 10 },
                             (_, i) => new Date().getFullYear() - i,
@@ -188,7 +193,7 @@ export default function TransactionsClient() {
                         className="flex items-center gap-2 rounded-lg bg-indigo-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 transition-colors dark:bg-indigo-500 dark:hover:bg-indigo-400 cursor-pointer"
                     >
                         <Plus className="h-5 w-5" />
-                        Add Transaction
+                        {t("addTransaction")}
                     </button>
                 </div>
             </div>
@@ -202,31 +207,33 @@ export default function TransactionsClient() {
                                     scope="col"
                                     className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-slate-900 dark:text-slate-200 sm:pl-6"
                                 >
-                                    Date
+                                    {t("date")}
                                 </th>
                                 <th
                                     scope="col"
                                     className="px-3 py-3.5 text-left text-sm font-semibold text-slate-900 dark:text-slate-200"
                                 >
-                                    Description
+                                    {t("description")}
                                 </th>
                                 <th
                                     scope="col"
                                     className="px-3 py-3.5 text-left text-sm font-semibold text-slate-900 dark:text-slate-200"
                                 >
-                                    Category
+                                    {t("category")}
                                 </th>
                                 <th
                                     scope="col"
                                     className="px-3 py-3.5 text-right text-sm font-semibold text-slate-900 dark:text-slate-200"
                                 >
-                                    Amount
+                                    {t("amount")}
                                 </th>
                                 <th
                                     scope="col"
                                     className="relative py-3.5 pl-3 pr-4 sm:pr-6"
                                 >
-                                    <span className="sr-only">Actions</span>
+                                    <span className="sr-only">
+                                        {t("actions")}
+                                    </span>
                                 </th>
                             </tr>
                         </thead>
@@ -237,7 +244,7 @@ export default function TransactionsClient() {
                                         colSpan={5}
                                         className="py-12 text-center text-sm text-slate-500 dark:text-slate-400"
                                     >
-                                        Loading transactions...
+                                        {t("loading")}
                                     </td>
                                 </tr>
                             ) : filteredTransactions?.length === 0 ? (
@@ -269,6 +276,7 @@ export default function TransactionsClient() {
                                             {format(
                                                 new Date(transaction.date),
                                                 "MMM dd, yyyy",
+                                                { locale: dateLocale },
                                             )}
                                         </td>
                                         <td className="whitespace-nowrap px-3 py-4 text-sm font-medium text-slate-900 dark:text-slate-200">
@@ -315,11 +323,11 @@ export default function TransactionsClient() {
                                                         handleEdit(transaction)
                                                     }
                                                     className="text-slate-400 hover:text-indigo-600 dark:text-slate-500 dark:hover:text-indigo-400 transition-colors p-1 cursor-pointer"
-                                                    title="Edit"
+                                                    title={t("edit")}
                                                 >
                                                     <Pencil className="h-4 w-4" />
                                                     <span className="sr-only">
-                                                        Edit
+                                                        {t("edit")}
                                                     </span>
                                                 </button>
                                                 <button
@@ -329,11 +337,11 @@ export default function TransactionsClient() {
                                                         )
                                                     }
                                                     className="text-slate-400 hover:text-red-600 dark:text-slate-500 dark:hover:text-red-400 transition-colors p-1 cursor-pointer"
-                                                    title="Delete"
+                                                    title={t("delete")}
                                                 >
                                                     <Trash2 className="h-4 w-4" />
                                                     <span className="sr-only">
-                                                        Delete
+                                                        {t("delete")}
                                                     </span>
                                                 </button>
                                             </div>
@@ -354,9 +362,9 @@ export default function TransactionsClient() {
             />
             <ConfirmModal
                 isOpen={!!transactionToDelete}
-                title="Delete Transaction"
-                message="Are you sure you want to delete this transaction?"
-                confirmText="Delete"
+                title={t("deleteTitle")}
+                message={t("deleteMessage")}
+                confirmText={t("delete")}
                 onConfirm={confirmDelete}
                 onCancel={() => setTransactionToDelete(null)}
                 isDestructive

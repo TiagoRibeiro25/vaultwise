@@ -1,6 +1,6 @@
 "use client";
 
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 
 import { useState, useEffect, useMemo } from "react";
 import {
@@ -13,6 +13,7 @@ import {
     CheckCircle,
 } from "lucide-react";
 import { format, differenceInDays } from "date-fns";
+import { pt, enUS } from "date-fns/locale";
 import { useApi } from "@/hooks/useApi";
 import SubscriptionFormModal from "./SubscriptionFormModal";
 import ConfirmModal from "@/components/ui/ConfirmModal";
@@ -38,6 +39,10 @@ interface Subscription {
 }
 
 export default function SubscriptionsClient() {
+    const t = useTranslations("Subscriptions");
+    const locale = useLocale();
+    const dateLocale = locale === "pt" ? pt : enUS;
+
     const {
         data: subscriptions,
         execute: fetchSubscriptions,
@@ -210,7 +215,7 @@ export default function SubscriptionsClient() {
                 <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900">
                     <div className="flex items-center justify-between pb-2">
                         <h3 className="text-sm font-medium text-slate-500 dark:text-slate-400">
-                            Monthly Cost
+                            {t("monthlyCost")}
                         </h3>
                         <div className="rounded-full bg-red-50 p-2 dark:bg-red-500/10">
                             <CreditCard className="h-4 w-4 text-red-600 dark:text-red-400" />
@@ -220,14 +225,14 @@ export default function SubscriptionsClient() {
                         {formatCurrency(monthlyTotal)}
                     </div>
                     <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">
-                        Estimated average per month
+                        {t("estimatedAverage")}
                     </p>
                 </div>
 
                 <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900">
                     <div className="flex items-center justify-between pb-2">
                         <h3 className="text-sm font-medium text-slate-500 dark:text-slate-400">
-                            Yearly Cost
+                            {t("yearlyCost")}
                         </h3>
                         <div className="rounded-full bg-orange-50 p-2 dark:bg-orange-500/10">
                             <Calendar className="h-4 w-4 text-orange-600 dark:text-orange-400" />
@@ -237,14 +242,14 @@ export default function SubscriptionsClient() {
                         {formatCurrency(yearlyTotal)}
                     </div>
                     <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">
-                        Total spent in a year
+                        {t("totalSpentYear")}
                     </p>
                 </div>
 
                 <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900">
                     <div className="flex items-center justify-between pb-2">
                         <h3 className="text-sm font-medium text-slate-500 dark:text-slate-400">
-                            Active Subscriptions
+                            {t("activeSubscriptions")}
                         </h3>
                         <div className="rounded-full bg-indigo-50 p-2 dark:bg-indigo-500/10">
                             <Activity className="h-4 w-4 text-indigo-600 dark:text-indigo-400" />
@@ -254,7 +259,7 @@ export default function SubscriptionsClient() {
                         {activeCount}
                     </div>
                     <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">
-                        Out of {subscriptions?.length || 0} total
+                        {t("outOfTotal", { total: subscriptions?.length || 0 })}
                     </p>
                 </div>
             </div>
@@ -271,18 +276,17 @@ export default function SubscriptionsClient() {
                             <CreditCard className="h-8 w-8 text-slate-400 dark:text-slate-500" />
                         </div>
                         <h3 className="text-lg font-semibold text-slate-900 dark:text-white">
-                            No subscriptions yet
+                            {t("noSubscriptionsYet")}
                         </h3>
                         <p className="mt-1 text-sm text-slate-500 dark:text-slate-400 max-w-sm">
-                            Keep track of your recurring expenses like Netflix,
-                            Gym, or Spotify by adding them here.
+                            {t("keepTrack")}
                         </p>
                         <button
                             onClick={() => handleOpenModal()}
                             className="mt-6 inline-flex items-center rounded-lg bg-indigo-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-indigo-700 dark:hover:bg-indigo-500"
                         >
                             <Plus className="mr-2 h-4 w-4" />
-                            Add your first subscription
+                            {t("addFirst")}
                         </button>
                     </div>
                 </div>
@@ -322,14 +326,14 @@ export default function SubscriptionsClient() {
                                             </h3>
                                             <p className="text-xs text-slate-500 dark:text-slate-400">
                                                 {sub.category?.name ||
-                                                    "Uncategorized"}
+                                                    t("uncategorized")}
                                             </p>
                                         </div>
                                     </div>
                                     <div className="flex items-center gap-1">
                                         {sub.status === "paused" && (
                                             <span className="inline-flex items-center rounded-md bg-slate-100 px-2 py-1 text-xs font-medium text-slate-600 dark:bg-slate-800 dark:text-slate-300">
-                                                Paused
+                                                {t("paused")}
                                             </span>
                                         )}
                                     </div>
@@ -341,10 +345,9 @@ export default function SubscriptionsClient() {
                                             {formatCurrency(Number(sub.amount))}
                                         </p>
                                         <p className="text-sm text-slate-500 dark:text-slate-400">
-                                            per{" "}
                                             {sub.billingCycle === "monthly"
-                                                ? "month"
-                                                : "year"}
+                                                ? t("perMonth")
+                                                : t("perYear")}
                                         </p>
                                     </div>
                                 </div>
@@ -356,6 +359,7 @@ export default function SubscriptionsClient() {
                                             {format(
                                                 new Date(sub.nextBillingDate),
                                                 "MMM dd, yyyy",
+                                                { locale: dateLocale },
                                             )}
                                         </div>
                                         {sub.status === "active" &&
@@ -370,14 +374,18 @@ export default function SubscriptionsClient() {
                                                     }`}
                                                 >
                                                     {daysLeft === 0
-                                                        ? "Today"
-                                                        : `In ${daysLeft} ${daysLeft === 1 ? "day" : "days"}`}
+                                                        ? t("today")
+                                                        : daysLeft === 1
+                                                          ? t("inOneDay")
+                                                          : t("inDays", {
+                                                                days: daysLeft,
+                                                            })}
                                                 </span>
                                             )}
                                         {daysLeft < 0 &&
                                             sub.status === "active" && (
                                                 <span className="font-medium text-red-600 dark:text-red-400">
-                                                    Past due
+                                                    {t("pastDue")}
                                                 </span>
                                             )}
                                     </div>
@@ -393,7 +401,7 @@ export default function SubscriptionsClient() {
                                         className="w-full inline-flex justify-center items-center rounded-md bg-emerald-50 px-3 py-2 text-sm font-medium text-emerald-700 hover:bg-emerald-100 dark:bg-emerald-500/10 dark:text-emerald-400 dark:hover:bg-emerald-500/20 transition-colors disabled:opacity-50 cursor-pointer disabled:cursor-not-allowed"
                                     >
                                         <CheckCircle className="mr-1.5 h-4 w-4" />
-                                        Log Payment
+                                        {t("logPayment")}
                                     </button>
                                     <div className="flex gap-2 w-full">
                                         <button
@@ -401,7 +409,7 @@ export default function SubscriptionsClient() {
                                             className="flex-1 inline-flex justify-center items-center rounded-md bg-slate-50 px-3 py-1.5 text-sm font-medium text-slate-700 hover:bg-slate-100 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700 transition-colors cursor-pointer"
                                         >
                                             <Edit2 className="mr-1.5 h-3.5 w-3.5" />
-                                            Edit
+                                            {t("edit")}
                                         </button>
                                         <button
                                             onClick={() => handleDelete(sub.id)}
@@ -427,9 +435,9 @@ export default function SubscriptionsClient() {
 
             <ConfirmModal
                 isOpen={!!subscriptionToDelete}
-                title="Delete Subscription"
-                message="Are you sure you want to delete this subscription?"
-                confirmText="Delete"
+                title={t("deleteTitle")}
+                message={t("deleteMessage")}
+                confirmText={t("delete")}
                 onConfirm={confirmDelete}
                 onCancel={() => setSubscriptionToDelete(null)}
                 isDestructive
@@ -437,9 +445,9 @@ export default function SubscriptionsClient() {
 
             <ConfirmModal
                 isOpen={!!subscriptionToLog}
-                title="Log Payment"
-                message={`Log payment for ${subscriptionToLog?.name} and update next billing date?`}
-                confirmText="Log Payment"
+                title={t("logPayment")}
+                message={t("logPaymentMessage")}
+                confirmText={t("logPayment")}
                 onConfirm={confirmLogPayment}
                 onCancel={() => setSubscriptionToLog(null)}
             />

@@ -4,6 +4,7 @@ import { useState } from "react";
 import { X, Check } from "lucide-react";
 import { useApi } from "@/hooks/useApi";
 import { PRESET_COLORS } from "@/constants/colors";
+import { useTranslations } from "next-intl";
 
 interface Category {
     id: string;
@@ -26,6 +27,8 @@ export default function CategoryFormModal({
     onSuccess,
     categoryToEdit,
 }: CategoryFormModalProps) {
+    const t = useTranslations("Categories");
+    const tCommon = useTranslations("Common");
     const [name, setName] = useState<string>("");
     const [color, setColor] = useState<string>(PRESET_COLORS[11]); // Default Indigo
     const [icon, setIcon] = useState<string>("");
@@ -90,7 +93,7 @@ export default function CategoryFormModal({
             <div className="relative z-10 w-full max-w-md overflow-hidden rounded-2xl bg-white text-left align-middle shadow-xl transition-all dark:border dark:border-slate-800 dark:bg-slate-900">
                 <div className="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 px-6 py-4">
                     <h3 className="text-lg font-semibold leading-6 text-slate-900 dark:text-white">
-                        {categoryToEdit ? "Edit Category" : "New Category"}
+                        {categoryToEdit ? t("editCategory") : t("newCategory")}
                     </h3>
                     <button
                         onClick={onClose}
@@ -118,7 +121,7 @@ export default function CategoryFormModal({
                                 htmlFor="name"
                                 className="block text-sm font-medium leading-6 text-slate-900 dark:text-slate-300 mb-2"
                             >
-                                Category Name
+                                {t("name")}
                             </label>
                             <input
                                 type="text"
@@ -135,7 +138,7 @@ export default function CategoryFormModal({
                         {/* Color Picker */}
                         <div>
                             <label className="block text-sm font-medium leading-6 text-slate-900 dark:text-slate-300 mb-3">
-                                Theme Color
+                                {t("color")}
                             </label>
                             <div className="grid grid-cols-6 sm:grid-cols-9 gap-2">
                                 {PRESET_COLORS.map((presetColor) => (
@@ -147,7 +150,7 @@ export default function CategoryFormModal({
                                         style={{ backgroundColor: presetColor }}
                                     >
                                         <span className="sr-only">
-                                            Color {presetColor}
+                                            {t("color")} {presetColor}
                                         </span>
                                         {color === presetColor && (
                                             <Check className="h-4 w-4 text-white drop-shadow-md" />
@@ -165,7 +168,7 @@ export default function CategoryFormModal({
                         onClick={onClose}
                         className="inline-flex justify-center rounded-lg border border-slate-200 bg-white px-4 py-2.5 text-sm font-medium text-slate-700 hover:bg-slate-50 hover:text-slate-900 focus:outline-none focus:ring-2 focus:ring-slate-200 transition-colors dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700 dark:hover:text-white cursor-pointer"
                     >
-                        Cancel
+                        {tCommon("cancel")}
                     </button>
                     <button
                         type="submit"
@@ -175,7 +178,7 @@ export default function CategoryFormModal({
                         }
                         className="inline-flex justify-center rounded-lg border border-transparent bg-indigo-600 px-4 py-2.5 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition-colors disabled:opacity-50 disabled:cursor-not-allowed dark:bg-indigo-500 dark:hover:bg-indigo-400 dark:focus:ring-offset-slate-900 cursor-pointer"
                     >
-                        {isLoading ? "Saving..." : "Save Category"}
+                        {isLoading ? t("saving") : t("saveCategory")}
                     </button>
                 </div>
             </div>

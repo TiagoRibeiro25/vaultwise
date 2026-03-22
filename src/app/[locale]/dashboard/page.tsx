@@ -19,6 +19,7 @@ import {
     subMonths,
     startOfYear,
 } from "date-fns";
+import { pt, enUS } from "date-fns/locale";
 import MonthlyBarChart from "@/components/dashboard/MonthlyBarChart";
 import CategoryPieChart from "@/components/dashboard/CategoryPieChart";
 import { formatCurrency } from "../utils/currency";
@@ -29,11 +30,16 @@ import { getTranslations } from "next-intl/server";
 export const dynamic = "force-dynamic";
 
 export default async function DashboardPage({
+    params,
     searchParams,
 }: {
+    params: Promise<{ locale: string }>;
     searchParams: Promise<{ range?: string }>;
 }) {
+    const { locale } = await params;
+    const dateLocale = locale === "pt" ? pt : enUS;
     const t = await getTranslations("Dashboard");
+    const tTrans = await getTranslations("Transactions");
     const session = await getServerSession(authOptions);
 
     if (!session?.user?.id) {
@@ -152,16 +158,16 @@ export default async function DashboardPage({
                 <div className="rounded-xl border border-slate-200 bg-white shadow-sm dark:border-slate-800 dark:bg-slate-900">
                     <div className="border-b border-slate-200 px-6 py-4 dark:border-slate-800">
                         <h2 className="text-lg font-semibold text-slate-900 dark:text-white">
-                            Income vs Expenses
+                            {t("incomeVsExpenses")}
                         </h2>
                         <p className="text-sm text-slate-500 dark:text-slate-400">
                             {range === "month"
-                                ? "This month"
+                                ? t("thisMonth")
                                 : range === "6months"
-                                  ? "Last 6 months"
+                                  ? t("last6Months")
                                   : range === "year"
-                                    ? "This year"
-                                    : "All time"}
+                                    ? t("thisYear")
+                                    : t("allTime")}
                         </p>
                     </div>
                     <div className="p-6 overflow-x-auto">
@@ -179,16 +185,16 @@ export default async function DashboardPage({
                 <div className="rounded-xl border border-slate-200 bg-white shadow-sm dark:border-slate-800 dark:bg-slate-900">
                     <div className="border-b border-slate-200 px-6 py-4 dark:border-slate-800">
                         <h2 className="text-lg font-semibold text-slate-900 dark:text-white">
-                            Expenses by Category
+                            {t("expensesByCategory")}
                         </h2>
                         <p className="text-sm text-slate-500 dark:text-slate-400">
                             {range === "month"
-                                ? "This month"
+                                ? t("thisMonth")
                                 : range === "6months"
-                                  ? "Last 6 months"
+                                  ? t("last6Months")
                                   : range === "year"
-                                    ? "This year"
-                                    : "All time"}
+                                    ? t("thisYear")
+                                    : t("allTime")}
                         </p>
                     </div>
                     <div className="p-6">
@@ -219,7 +225,7 @@ export default async function DashboardPage({
                 <div className="p-6">
                     {allTransactions.length > 0 ? (
                         <div className="space-y-4">
-                            {allTransactions.slice(0, 5).map((transaction) => (
+                            {allTransactions.slice(0, 10).map((transaction) => (
                                 <div
                                     key={transaction.id}
                                     className="flex items-center justify-between border-b border-slate-100 pb-4 last:border-0 last:pb-0 dark:border-slate-800/50"
@@ -247,6 +253,7 @@ export default async function DashboardPage({
                                                 {format(
                                                     new Date(transaction.date),
                                                     "MMM dd, yyyy",
+                                                    { locale: dateLocale },
                                                 )}
                                             </p>
                                         </div>
@@ -274,10 +281,10 @@ export default async function DashboardPage({
                                 <Euro className="h-6 w-6 text-slate-400 dark:text-slate-500" />
                             </div>
                             <h3 className="mt-4 text-sm font-semibold text-slate-900 dark:text-white">
-                                No transactions
+                                {tTrans("noTransactions")}
                             </h3>
                             <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
-                                Get started by creating a new transaction.
+                                {tTrans("getStarted")}
                             </p>
                         </div>
                     )}

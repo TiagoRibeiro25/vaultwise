@@ -2,6 +2,7 @@
 
 import { FALLBACK_COLORS } from "@/constants/colors";
 import { useMemo } from "react";
+import { useTranslations, useLocale } from "next-intl";
 import {
     PieChart,
     Pie,
@@ -36,6 +37,7 @@ interface CustomTooltipProps {
 }
 
 const CustomTooltip = ({ active, payload }: CustomTooltipProps) => {
+    const locale = useLocale();
     if (active && payload && payload.length) {
         const data = payload[0].payload;
         return (
@@ -50,10 +52,13 @@ const CustomTooltip = ({ active, payload }: CustomTooltipProps) => {
                     </span>
                 </div>
                 <p className="text-sm font-semibold text-slate-700 dark:text-slate-300">
-                    {new Intl.NumberFormat("pt-PT", {
-                        style: "currency",
-                        currency: "EUR",
-                    }).format(data.value)}
+                    {new Intl.NumberFormat(
+                        locale === "pt" ? "pt-PT" : "en-US",
+                        {
+                            style: "currency",
+                            currency: "EUR",
+                        },
+                    ).format(data.value)}
                 </p>
             </div>
         );
@@ -64,6 +69,9 @@ const CustomTooltip = ({ active, payload }: CustomTooltipProps) => {
 export default function CategoryPieChart({
     transactions,
 }: CategoryPieChartProps) {
+    const t = useTranslations("Dashboard");
+    const tSub = useTranslations("Subscriptions");
+
     const data = useMemo(() => {
         // We only want to chart expenses
         const expenses = transactions.filter((t) => t.type === "expense");
@@ -71,7 +79,7 @@ export default function CategoryPieChart({
         // Group expenses by category name
         const grouped = expenses.reduce(
             (acc, curr) => {
-                const catName = curr.category?.name || "Uncategorized";
+                const catName = curr.category?.name || tSub("uncategorized");
                 const amount = Number(curr.amount);
 
                 if (!acc[catName]) {
@@ -99,13 +107,13 @@ export default function CategoryPieChart({
                     item.color ||
                     FALLBACK_COLORS[index % FALLBACK_COLORS.length],
             }));
-    }, [transactions]);
+    }, [transactions, tSub]);
 
     if (data.length === 0) {
         return (
             <div className="flex h-80 w-full flex-col items-center justify-center rounded-xl border border-dashed border-slate-200 bg-slate-50/50 dark:border-slate-800 dark:bg-slate-900/20">
                 <p className="text-sm text-slate-500 dark:text-slate-400">
-                    No expense data available for this period.
+                    {t("noExpenseData")}
                 </p>
             </div>
         );

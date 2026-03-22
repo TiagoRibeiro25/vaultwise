@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { X } from "lucide-react";
 import { useApi } from "@/hooks/useApi";
+import { useTranslations } from "next-intl";
 
 interface Category {
     id: string;
@@ -37,6 +38,9 @@ export default function SubscriptionFormModal({
     onSuccess,
     subscriptionToEdit,
 }: SubscriptionFormModalProps) {
+    const t = useTranslations("Subscriptions");
+    const tCommon = useTranslations("Common");
+    const tTrans = useTranslations("Transactions");
     const [name, setName] = useState<string>("");
     const [amount, setAmount] = useState<string>("");
     const [billingCycle, setBillingCycle] = useState<"monthly" | "yearly">(
@@ -134,8 +138,8 @@ export default function SubscriptionFormModal({
                 <div className="flex items-center justify-between border-b border-slate-200 px-6 py-4 dark:border-slate-800">
                     <h3 className="text-lg font-semibold text-slate-900 dark:text-white">
                         {subscriptionToEdit
-                            ? "Edit Subscription"
-                            : "Add Subscription"}
+                            ? t("editSubscription")
+                            : t("newSubscription")}
                     </h3>
                     <button
                         onClick={onClose}
@@ -159,7 +163,7 @@ export default function SubscriptionFormModal({
 
                         <div>
                             <label className="mb-1 block text-sm font-medium text-slate-700 dark:text-slate-300">
-                                Name
+                                {t("name")}
                             </label>
                             <input
                                 type="text"
@@ -174,7 +178,7 @@ export default function SubscriptionFormModal({
                         <div className="grid grid-cols-2 gap-4">
                             <div>
                                 <label className="mb-1 block text-sm font-medium text-slate-700 dark:text-slate-300">
-                                    Amount
+                                    {t("amount")}
                                 </label>
                                 <div className="relative">
                                     <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
@@ -198,7 +202,7 @@ export default function SubscriptionFormModal({
                             </div>
                             <div>
                                 <label className="mb-1 block text-sm font-medium text-slate-700 dark:text-slate-300">
-                                    Cycle
+                                    {t("billingCycle")}
                                 </label>
                                 <select
                                     value={billingCycle}
@@ -211,15 +215,19 @@ export default function SubscriptionFormModal({
                                     }
                                     className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 dark:border-slate-700 dark:bg-slate-950 dark:text-white"
                                 >
-                                    <option value="monthly">Monthly</option>
-                                    <option value="yearly">Yearly</option>
+                                    <option value="monthly">
+                                        {t("monthly")}
+                                    </option>
+                                    <option value="yearly">
+                                        {t("yearly")}
+                                    </option>
                                 </select>
                             </div>
                         </div>
 
                         <div>
                             <label className="mb-1 block text-sm font-medium text-slate-700 dark:text-slate-300">
-                                Next Billing Date
+                                {t("nextBillingDate")}
                             </label>
                             <input
                                 type="date"
@@ -235,7 +243,7 @@ export default function SubscriptionFormModal({
                         <div className="grid grid-cols-2 gap-4">
                             <div>
                                 <label className="mb-1 block text-sm font-medium text-slate-700 dark:text-slate-300">
-                                    Category
+                                    {tTrans("category")}
                                 </label>
                                 <select
                                     value={categoryId}
@@ -254,7 +262,7 @@ export default function SubscriptionFormModal({
                             </div>
                             <div>
                                 <label className="mb-1 block text-sm font-medium text-slate-700 dark:text-slate-300">
-                                    Status
+                                    {t("status")}
                                 </label>
                                 <select
                                     value={status}
@@ -267,8 +275,12 @@ export default function SubscriptionFormModal({
                                     }
                                     className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 dark:border-slate-700 dark:bg-slate-950 dark:text-white"
                                 >
-                                    <option value="active">Active</option>
-                                    <option value="paused">Paused</option>
+                                    <option value="active">
+                                        {t("active")}
+                                    </option>
+                                    <option value="paused">
+                                        {t("paused")}
+                                    </option>
                                 </select>
                             </div>
                         </div>
@@ -281,7 +293,7 @@ export default function SubscriptionFormModal({
                         onClick={onClose}
                         className="rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700 cursor-pointer"
                     >
-                        Cancel
+                        {tCommon("cancel")}
                     </button>
                     <button
                         type="submit"
@@ -289,7 +301,7 @@ export default function SubscriptionFormModal({
                         disabled={isLoading}
                         className="rounded-lg bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700 disabled:opacity-50 dark:hover:bg-indigo-500 cursor-pointer"
                     >
-                        {isLoading ? "Saving..." : "Save Subscription"}
+                        {isLoading ? t("saving") : t("saveSubscription")}
                     </button>
                 </div>
             </div>

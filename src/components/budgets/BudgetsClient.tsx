@@ -1,11 +1,12 @@
 "use client";
 
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 
 import { useState, useEffect } from "react";
 import { Plus, Edit2, Trash2, AlertCircle, Euro } from "lucide-react";
 import { useApi } from "@/hooks/useApi";
 import { format } from "date-fns";
+import { pt, enUS } from "date-fns/locale";
 import BudgetFormModal from "./BudgetFormModal";
 import ConfirmModal from "@/components/ui/ConfirmModal";
 import { formatCurrency } from "@/app/[locale]/utils/currency";
@@ -40,6 +41,10 @@ type BudgetWithSpent = Budget & {
 };
 
 export default function BudgetsClient() {
+    const t = useTranslations("Budgets");
+    const locale = useLocale();
+    const dateLocale = locale === "pt" ? pt : enUS;
+
     const [currentDate] = useState<Date>(new Date());
     const currentMonth = currentDate.getMonth() + 1; // 1-12
     const currentYear = currentDate.getFullYear();
@@ -147,11 +152,14 @@ export default function BudgetsClient() {
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                 <div>
                     <h1 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white">
-                        {useTranslations("Budgets")("title")}
+                        {t("title")}
                     </h1>
                     <p className="text-sm text-slate-500 dark:text-slate-400">
-                        {useTranslations("Budgets")("subtitle")}{" "}
-                        {format(currentDate, "MMMM yyyy")}.
+                        {t("subtitle")}{" "}
+                        {format(currentDate, "MMMM yyyy", {
+                            locale: dateLocale,
+                        })}
+                        .
                     </p>
                 </div>
                 <button
@@ -159,7 +167,7 @@ export default function BudgetsClient() {
                     className="inline-flex items-center justify-center rounded-lg bg-indigo-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:hover:bg-indigo-500"
                 >
                     <Plus className="mr-2 h-4 w-4" />
-                    {useTranslations("Budgets")("addBudget")}
+                    {t("addBudget")}
                 </button>
             </div>
 
@@ -191,13 +199,13 @@ export default function BudgetsClient() {
                                             <div>
                                                 <p className="font-medium text-slate-900 dark:text-white">
                                                     {budget.category?.name ||
-                                                        "Unknown Category"}
+                                                        t("unknownCategory")}
                                                 </p>
                                                 <p className="text-sm text-slate-500 dark:text-slate-400">
                                                     {formatCurrency(
                                                         budget.spent,
                                                     )}{" "}
-                                                    of{" "}
+                                                    {t("of")}{" "}
                                                     {formatCurrency(
                                                         Number(budget.amount),
                                                     )}
@@ -218,8 +226,8 @@ export default function BudgetsClient() {
                                                     {Number(budget.amount) -
                                                         budget.spent >
                                                     0
-                                                        ? `${formatCurrency(Number(budget.amount) - budget.spent)} left`
-                                                        : "Over budget"}
+                                                        ? `${formatCurrency(Number(budget.amount) - budget.spent)} ${t("left")}`
+                                                        : t("overBudget")}
                                                 </p>
                                             </div>
                                             <div className="flex gap-2">
@@ -228,6 +236,7 @@ export default function BudgetsClient() {
                                                         handleOpenModal(budget)
                                                     }
                                                     className="p-1 text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
+                                                    title={t("edit")}
                                                 >
                                                     <Edit2 className="h-4 w-4" />
                                                 </button>
@@ -237,6 +246,7 @@ export default function BudgetsClient() {
                                                     }
                                                     disabled={isDeleting}
                                                     className="p-1 text-slate-400 hover:text-red-600 dark:hover:text-red-400 transition-colors"
+                                                    title={t("delete")}
                                                 >
                                                     <Trash2 className="h-4 w-4" />
                                                 </button>
@@ -256,10 +266,7 @@ export default function BudgetsClient() {
                                     {budget.percentage >= 100 && (
                                         <div className="flex items-center gap-1.5 text-xs text-red-600 dark:text-red-400 mt-1">
                                             <AlertCircle className="h-3.5 w-3.5" />
-                                            <span>
-                                                You have exceeded your budget
-                                                for this category.
-                                            </span>
+                                            <span>{t("exceeded")}</span>
                                         </div>
                                     )}
                                 </div>
@@ -271,18 +278,17 @@ export default function BudgetsClient() {
                                 <Euro className="h-8 w-8 text-slate-400 dark:text-slate-500" />
                             </div>
                             <h3 className="mt-4 text-lg font-semibold text-slate-900 dark:text-white">
-                                No budgets set for this month
+                                {t("noBudgets")}
                             </h3>
                             <p className="mt-2 text-sm text-slate-500 dark:text-slate-400 max-w-sm">
-                                Create a budget to start tracking your spending
-                                and ensure you stay within your limits.
+                                {t("setLimits")}
                             </p>
                             <button
                                 onClick={() => handleOpenModal()}
                                 className="mt-6 inline-flex items-center justify-center rounded-lg bg-indigo-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:hover:bg-indigo-500"
                             >
                                 <Plus className="mr-2 h-4 w-4" />
-                                Create your first budget
+                                {t("createFirst")}
                             </button>
                         </div>
                     )}
@@ -300,9 +306,9 @@ export default function BudgetsClient() {
 
             <ConfirmModal
                 isOpen={!!budgetToDelete}
-                title="Delete Budget"
-                message="Are you sure you want to delete this budget?"
-                confirmText="Delete"
+                title={t("deleteTitle")}
+                message={t("deleteMessage")}
+                confirmText={t("delete")}
                 onConfirm={confirmDelete}
                 onCancel={() => setBudgetToDelete(null)}
                 isDestructive

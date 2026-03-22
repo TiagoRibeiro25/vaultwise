@@ -84,7 +84,7 @@ export default function ProfileClient() {
         if (result?.error) {
             setErrorMessage(result.error);
         } else {
-            setSuccessMessage("Profile updated successfully!");
+            setSuccessMessage(t("updateSuccess"));
             setPassword("");
             setConfirmPassword("");
 
@@ -142,12 +142,12 @@ export default function ProfileClient() {
 
                         <div className="space-y-4">
                             <h3 className="text-lg font-medium text-slate-900 dark:text-white border-b border-slate-100 pb-2 dark:border-slate-800">
-                                Personal Information
+                                {t("personalInfo")}
                             </h3>
 
                             <div>
                                 <label className="block text-sm font-medium leading-6 text-slate-900 dark:text-slate-300 mb-2">
-                                    Full Name
+                                    {t("fullName")}
                                 </label>
                                 <div className="relative rounded-md shadow-sm">
                                     <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
@@ -171,7 +171,7 @@ export default function ProfileClient() {
 
                             <div>
                                 <label className="block text-sm font-medium leading-6 text-slate-900 dark:text-slate-300 mb-2">
-                                    Email Address
+                                    {t("emailAddress")}
                                 </label>
                                 <div className="relative rounded-md shadow-sm">
                                     <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
@@ -192,24 +192,22 @@ export default function ProfileClient() {
                                     />
                                 </div>
                                 <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">
-                                    If you change your email, you will be
-                                    required to log in again.
+                                    {t("emailChangeWarning")}
                                 </p>
                             </div>
                         </div>
 
                         <div className="space-y-4 pt-4">
                             <h3 className="text-lg font-medium text-slate-900 dark:text-white border-b border-slate-100 pb-2 dark:border-slate-800">
-                                Change Password
+                                {t("changePassword")}
                             </h3>
                             <p className="text-sm text-slate-500 dark:text-slate-400">
-                                Leave blank if you don&apos;t want to change
-                                your password.
+                                {t("leaveBlank")}
                             </p>
 
                             <div>
                                 <label className="block text-sm font-medium leading-6 text-slate-900 dark:text-slate-300 mb-2">
-                                    New Password
+                                    {t("newPassword")}
                                 </label>
                                 <div className="relative rounded-md shadow-sm">
                                     <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
@@ -232,7 +230,7 @@ export default function ProfileClient() {
 
                             <div>
                                 <label className="block text-sm font-medium leading-6 text-slate-900 dark:text-slate-300 mb-2">
-                                    Confirm New Password
+                                    {t("confirmPassword")}
                                 </label>
                                 <div className="relative rounded-md shadow-sm">
                                     <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
@@ -258,17 +256,14 @@ export default function ProfileClient() {
                             <button
                                 type="submit"
                                 disabled={isSaving}
-                                className="inline-flex items-center gap-2 rounded-lg bg-indigo-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed dark:bg-indigo-500 dark:hover:bg-indigo-400 cursor-pointer"
+                                className="flex w-full items-center justify-center gap-2 rounded-lg bg-indigo-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors sm:w-auto dark:bg-indigo-500 dark:hover:bg-indigo-400 cursor-pointer"
                             >
                                 {isSaving ? (
-                                    <>
-                                        <div className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent"></div>
-                                        Saving...
-                                    </>
+                                    t("saving")
                                 ) : (
                                     <>
                                         <Save className="h-4 w-4" />
-                                        Save Changes
+                                        {t("saveChanges")}
                                     </>
                                 )}
                             </button>

@@ -18,6 +18,7 @@ interface Category {
 }
 
 export default function CategoriesClient() {
+    const t = useTranslations("Categories");
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
     const [categoryToEdit, setCategoryToEdit] = useState<Category | null>(null);
     const [categoryToDelete, setCategoryToDelete] = useState<string | null>(
@@ -149,11 +150,11 @@ export default function CategoriesClient() {
                                         <button
                                             onClick={() => handleEdit(category)}
                                             className="rounded p-1.5 text-slate-400 hover:bg-slate-50 hover:text-indigo-600 dark:hover:bg-slate-800 dark:hover:text-indigo-400 transition-colors cursor-pointer"
-                                            title="Edit"
+                                            title={t("edit")}
                                         >
                                             <Pencil className="h-4 w-4" />
                                             <span className="sr-only">
-                                                Edit
+                                                {t("edit")}
                                             </span>
                                         </button>
                                         <button
@@ -161,11 +162,11 @@ export default function CategoriesClient() {
                                                 handleDelete(category.id)
                                             }
                                             className="rounded p-1.5 text-slate-400 hover:bg-red-50 hover:text-red-600 dark:hover:bg-red-900/20 dark:hover:text-red-400 transition-colors cursor-pointer"
-                                            title="Delete"
+                                            title={t("delete")}
                                         >
                                             <Trash2 className="h-4 w-4" />
                                             <span className="sr-only">
-                                                Delete
+                                                {t("delete")}
                                             </span>
                                         </button>
                                     </>
@@ -185,9 +186,9 @@ export default function CategoriesClient() {
 
             <ConfirmModal
                 isOpen={!!categoryToDelete}
-                title="Delete Category"
-                message="Are you sure you want to delete this category?"
-                confirmText="Delete"
+                title={t("deleteTitle")}
+                message={t("deleteMessage")}
+                confirmText={t("delete")}
                 onConfirm={confirmDelete}
                 onCancel={() => setCategoryToDelete(null)}
                 isDestructive
