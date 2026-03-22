@@ -11,7 +11,7 @@ import {
     Legend,
     ResponsiveContainer,
 } from "recharts";
-import { format, subMonths, startOfMonth, isSameMonth } from "date-fns";
+import { format, startOfMonth, isSameMonth } from "date-fns";
 
 interface Transaction {
     amount: string | number;
@@ -70,11 +70,21 @@ export default function MonthlyBarChart({
     transactions,
 }: MonthlyBarChartProps) {
     const data = useMemo(() => {
-        // Generate the last 6 months
-        const months = Array.from({ length: 6 }).map((_, i) => {
-            const d = subMonths(new Date(), 5 - i);
-            return startOfMonth(d);
-        });
+        if (!transactions || transactions.length === 0) {
+            return [];
+        }
+
+        // Get all months from the earliest to the latest transaction
+        const dates = transactions.map((t) => startOfMonth(new Date(t.date)));
+        const minDate = new Date(Math.min(...dates.map((d) => d.getTime())));
+        const maxDate = new Date(Math.max(...dates.map((d) => d.getTime())));
+
+        const months = [];
+        const current = new Date(minDate);
+        while (current <= maxDate) {
+            months.push(new Date(current));
+            current.setMonth(current.getMonth() + 1);
+        }
 
         // Calculate income and expenses for each month
         return months.map((month) => {
@@ -91,7 +101,7 @@ export default function MonthlyBarChart({
                 .reduce((sum, t) => sum + Number(t.amount), 0);
 
             return {
-                name: format(month, "MMM"),
+                name: format(month, "MMM yy"),
                 Income: income,
                 Expense: expense,
             };
