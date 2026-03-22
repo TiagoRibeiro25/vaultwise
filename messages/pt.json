@@ -8,7 +8,7 @@
         "submit": "Enviar"
     },
     "Navigation": {
-        "dashboard": "Painel",
+        "dashboard": "Dashboard",
         "transactions": "Transações",
         "categories": "Categorias",
         "budgets": "Orçamentos",
@@ -20,7 +20,7 @@
         "logout": "Sair"
     },
     "Dashboard": {
-        "title": "Painel",
+        "title": "Dashboard",
         "welcome": "Bem-vindo de volta",
         "totalBalance": "Saldo Total",
         "income": "Receitas",
@@ -60,7 +60,7 @@
     "Logout": {
         "button": "Sair",
         "title": "Confirmar Logout",
-        "message": "Tem certeza de que deseja sair da sua conta? Você precisará fazer login novamente para acessar seu painel financeiro."
+        "message": "Tem certeza de que deseja sair da sua conta? Você precisará fazer login novamente para acessar seu dashboard financeiro."
     },
     "Transactions": {
         "title": "Transações",
