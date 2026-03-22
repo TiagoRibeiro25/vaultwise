@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import { Link, usePathname } from "@/i18n/routing";
 import {
     Home,
     CreditCard,
@@ -12,7 +12,6 @@ import {
 import LogoutButton from "@/components/auth/LogoutButton";
 import ThemeToggle from "@/components/layout/ThemeToggle";
 import LanguageSwitcher from "@/components/layout/LanguageSwitcher";
-import { usePathname } from "next/navigation";
 import { useTranslations } from "next-intl";
 
 interface SidebarProps {

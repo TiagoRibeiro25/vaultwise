@@ -52,5 +52,37 @@
         "button": "Log out",
         "title": "Confirm Logout",
         "message": "Are you sure you want to log out of your account? You will need to sign in again to access your financial dashboard."
+    },
+    "Transactions": {
+        "title": "Transactions",
+        "subtitle": "Manage your income and expenses.",
+        "noTransactions": "No transactions found.",
+        "getStarted": "Get started by creating a new transaction."
+    },
+    "Categories": {
+        "title": "Categories",
+        "subtitle": "Manage your transaction categories to better organize your finances.",
+        "addCategory": "Add Category"
+    },
+    "Budgets": {
+        "title": "Budgets",
+        "subtitle": "Manage your monthly spending limits for",
+        "addBudget": "Add Budget"
+    },
+    "Subscriptions": {
+        "title": "Subscriptions",
+        "subtitle": "Manage your recurring payments and track your fixed costs.",
+        "addSubscription": "Add Subscription"
+    },
+    "History": {
+        "title": "History",
+        "subtitle": "View your past financial activity and trends."
+    },
+    "Profile": {
+        "title": "Profile Settings",
+        "subtitle": "Update your account details and security preferences.",
+        "nameRequired": "Name and email are required.",
+        "passwordsNotMatch": "Passwords do not match.",
+        "passwordLength": "Password must be at least 6 characters long."
     }
 }

@@ -52,5 +52,37 @@
         "button": "Sair",
         "title": "Confirmar Logout",
         "message": "Tem certeza de que deseja sair da sua conta? Você precisará fazer login novamente para acessar seu painel financeiro."
+    },
+    "Transactions": {
+        "title": "Transações",
+        "subtitle": "Gerencie suas receitas e despesas.",
+        "noTransactions": "Nenhuma transação encontrada.",
+        "getStarted": "Comece criando uma nova transação."
+    },
+    "Categories": {
+        "title": "Categorias",
+        "subtitle": "Gerencie suas categorias de transação para organizar melhor suas finanças.",
+        "addCategory": "Adicionar Categoria"
+    },
+    "Budgets": {
+        "title": "Orçamentos",
+        "subtitle": "Gerencie seus limites de gastos mensais para",
+        "addBudget": "Adicionar Orçamento"
+    },
+    "Subscriptions": {
+        "title": "Assinaturas",
+        "subtitle": "Gerencie seus pagamentos recorrentes e acompanhe seus custos fixos.",
+        "addSubscription": "Adicionar Assinatura"
+    },
+    "History": {
+        "title": "Histórico",
+        "subtitle": "Veja sua atividade financeira e tendências passadas."
+    },
+    "Profile": {
+        "title": "Configurações de Perfil",
+        "subtitle": "Atualize os detalhes da sua conta e preferências de segurança.",
+        "nameRequired": "Nome e e-mail são obrigatórios.",
+        "passwordsNotMatch": "As senhas não coincidem.",
+        "passwordLength": "A senha deve ter pelo menos 6 caracteres."
     }
 }

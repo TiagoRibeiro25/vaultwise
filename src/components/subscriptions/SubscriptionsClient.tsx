@@ -1,5 +1,7 @@
 "use client";
 
+import { useTranslations } from "next-intl";
+
 import { useState, useEffect, useMemo } from "react";
 import {
     Plus,
@@ -185,11 +187,10 @@ export default function SubscriptionsClient() {
             <div className="sm:flex sm:items-center sm:justify-between">
                 <div>
                     <h1 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white">
-                        Subscriptions
+                        {useTranslations("Subscriptions")("title")}
                     </h1>
                     <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
-                        Manage your recurring payments and track your fixed
-                        costs.
+                        {useTranslations("Subscriptions")("subtitle")}
                     </p>
                 </div>
                 <div className="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
@@ -199,7 +200,7 @@ export default function SubscriptionsClient() {
                         className="flex items-center gap-2 rounded-lg bg-indigo-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 transition-colors dark:bg-indigo-500 dark:hover:bg-indigo-400 cursor-pointer"
                     >
                         <Plus className="h-5 w-5" />
-                        Add Subscription
+                        {useTranslations("Subscriptions")("addSubscription")}
                     </button>
                 </div>
             </div>

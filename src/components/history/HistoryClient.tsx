@@ -1,5 +1,7 @@
 "use client";
 
+import { useTranslations } from "next-intl";
+
 import { useState, useEffect, useMemo } from "react";
 import { format } from "date-fns";
 import { useApi } from "@/hooks/useApi";
@@ -129,10 +131,10 @@ export default function HistoryClient() {
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                 <div>
                     <h1 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white">
-                        History
+                        {useTranslations("History")("title")}
                     </h1>
                     <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
-                        View your past financial activity and trends.
+                        {useTranslations("History")("subtitle")}
                     </p>
                 </div>
 

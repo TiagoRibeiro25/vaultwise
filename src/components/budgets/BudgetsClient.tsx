@@ -1,5 +1,7 @@
 "use client";
 
+import { useTranslations } from "next-intl";
+
 import { useState, useEffect } from "react";
 import { Plus, Edit2, Trash2, AlertCircle, Euro } from "lucide-react";
 import { useApi } from "@/hooks/useApi";
@@ -145,10 +147,10 @@ export default function BudgetsClient() {
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                 <div>
                     <h1 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white">
-                        Budgets
+                        {useTranslations("Budgets")("title")}
                     </h1>
                     <p className="text-sm text-slate-500 dark:text-slate-400">
-                        Manage your monthly spending limits for{" "}
+                        {useTranslations("Budgets")("subtitle")}{" "}
                         {format(currentDate, "MMMM yyyy")}.
                     </p>
                 </div>
@@ -157,7 +159,7 @@ export default function BudgetsClient() {
                     className="inline-flex items-center justify-center rounded-lg bg-indigo-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:hover:bg-indigo-500"
                 >
                     <Plus className="mr-2 h-4 w-4" />
-                    Add Budget
+                    {useTranslations("Budgets")("addBudget")}
                 </button>
             </div>
 

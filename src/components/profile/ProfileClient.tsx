@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { User, Mail, Lock, Save, AlertCircle, CheckCircle } from "lucide-react";
 import { useApi } from "@/hooks/useApi";
 import { signOut } from "next-auth/react";
+import { useTranslations } from "next-intl";
 
 interface ProfileData {
     id: string;
@@ -12,6 +13,7 @@ interface ProfileData {
 }
 
 export default function ProfileClient() {
+    const t = useTranslations("Profile");
     const {
         data: profile,
         execute: fetchProfile,
@@ -52,17 +54,17 @@ export default function ProfileClient() {
         setErrorMessage("");
 
         if (!name.trim() || !email.trim()) {
-            setErrorMessage("Name and email are required.");
+            setErrorMessage(t("nameRequired"));
             return;
         }
 
         if (password) {
             if (password !== confirmPassword) {
-                setErrorMessage("Passwords do not match.");
+                setErrorMessage(t("passwordsNotMatch"));
                 return;
             }
             if (password.length < 6) {
-                setErrorMessage("Password must be at least 6 characters long.");
+                setErrorMessage(t("passwordLength"));
                 return;
             }
         }
@@ -114,10 +116,10 @@ export default function ProfileClient() {
         <div className="space-y-6 max-w-2xl mx-auto">
             <div>
                 <h1 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white">
-                    Profile Settings
+                    {t("title")}
                 </h1>
                 <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
-                    Update your account details and security preferences.
+                    {t("subtitle")}
                 </p>
             </div>
 

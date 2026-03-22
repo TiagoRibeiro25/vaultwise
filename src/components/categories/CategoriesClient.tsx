@@ -1,5 +1,7 @@
 "use client";
 
+import { useTranslations } from "next-intl";
+
 import { useState, useEffect } from "react";
 import { Plus, Pencil, Trash2, Tag, Lock } from "lucide-react";
 import { useApi } from "@/hooks/useApi";
@@ -76,11 +78,10 @@ export default function CategoriesClient() {
             <div className="sm:flex sm:items-center sm:justify-between">
                 <div>
                     <h1 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white">
-                        Categories
+                        {useTranslations("Categories")("title")}
                     </h1>
                     <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
-                        Manage your transaction categories to better organize
-                        your finances.
+                        {useTranslations("Categories")("subtitle")}
                     </p>
                 </div>
                 <div className="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
@@ -90,7 +91,7 @@ export default function CategoriesClient() {
                         className="flex items-center gap-2 rounded-lg bg-indigo-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 transition-colors dark:bg-indigo-500 dark:hover:bg-indigo-400 cursor-pointer"
                     >
                         <Plus className="h-5 w-5" />
-                        Add Category
+                        {useTranslations("Categories")("addCategory")}
                     </button>
                 </div>
             </div>

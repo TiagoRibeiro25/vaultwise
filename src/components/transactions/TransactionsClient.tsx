@@ -17,6 +17,7 @@ import { useApi } from "@/hooks/useApi";
 import TransactionFormModal from "./TransactionFormModal";
 import ExportCsvButton from "./ExportCsvButton";
 import { formatCurrency } from "@/app/[locale]/utils/currency";
+import { useTranslations } from "next-intl";
 
 interface Category {
     id: string;
@@ -36,6 +37,7 @@ export interface Transaction {
 }
 
 export default function TransactionsClient() {
+    const t = useTranslations("Transactions");
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
     const [transactionToEdit, setTransactionToEdit] =
         useState<Transaction | null>(null);
@@ -129,10 +131,10 @@ export default function TransactionsClient() {
             <div className="sm:flex sm:items-center sm:justify-between">
                 <div>
                     <h1 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white">
-                        Transactions
+                        {t("title")}
                     </h1>
                     <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
-                        Manage your income and expenses.
+                        {t("subtitle")}
                     </p>
                 </div>
                 <div className="mt-4 sm:ml-16 sm:mt-0 sm:flex-none flex flex-wrap items-center gap-2">
@@ -245,14 +247,15 @@ export default function TransactionsClient() {
                                         className="py-12 text-center text-sm text-slate-500 dark:text-slate-400"
                                     >
                                         <div className="flex flex-col items-center justify-center">
-                                            <div className="rounded-full bg-slate-50 p-3 dark:bg-slate-800 mb-3">
-                                                <Search className="h-6 w-6 text-slate-400" />
+                                            <div className="flex flex-col items-center justify-center py-12 text-center text-slate-500 dark:text-slate-400">
+                                                <div className="rounded-full bg-slate-100 p-3 mb-4 dark:bg-slate-800">
+                                                    <Search className="h-6 w-6 text-slate-400" />
+                                                </div>
+                                                <p>{t("noTransactions")}</p>
+                                                <p className="text-xs mt-1">
+                                                    {t("getStarted")}
+                                                </p>
                                             </div>
-                                            <p>No transactions found.</p>
-                                            <p className="text-xs mt-1">
-                                                Get started by creating a new
-                                                transaction.
-                                            </p>
                                         </div>
                                     </td>
                                 </tr>
