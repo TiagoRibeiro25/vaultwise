@@ -7,13 +7,16 @@ import { eq, and } from "drizzle-orm";
 
 export async function PUT(
     req: Request,
-    { params }: { params: Promise<{ id: string }> }
+    { params }: { params: Promise<{ id: string }> },
 ) {
     try {
         const session = await getServerSession(authOptions);
 
         if (!session?.user?.id) {
-            return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+            return NextResponse.json(
+                { message: "Unauthorized" },
+                { status: 401 },
+            );
         }
 
         const resolvedParams = await params;
@@ -25,7 +28,7 @@ export async function PUT(
         if (!amount || !type || !date) {
             return NextResponse.json(
                 { message: "Missing required fields" },
-                { status: 400 }
+                { status: 400 },
             );
         }
 
@@ -42,15 +45,15 @@ export async function PUT(
             .where(
                 and(
                     eq(transactions.id, id),
-                    eq(transactions.userId, session.user.id)
-                )
+                    eq(transactions.userId, session.user.id),
+                ),
             )
             .returning();
 
         if (!updatedTransaction) {
             return NextResponse.json(
                 { message: "Transaction not found or not authorized" },
-                { status: 404 }
+                { status: 404 },
             );
         }
 
@@ -59,20 +62,23 @@ export async function PUT(
         console.error("Error updating transaction:", error);
         return NextResponse.json(
             { message: "Failed to update transaction" },
-            { status: 500 }
+            { status: 500 },
         );
     }
 }
 
 export async function DELETE(
-    req: Request,
-    { params }: { params: Promise<{ id: string }> }
+    _req: Request,
+    { params }: { params: Promise<{ id: string }> },
 ) {
     try {
         const session = await getServerSession(authOptions);
 
         if (!session?.user?.id) {
-            return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+            return NextResponse.json(
+                { message: "Unauthorized" },
+                { status: 401 },
+            );
         }
 
         const resolvedParams = await params;
@@ -83,24 +89,26 @@ export async function DELETE(
             .where(
                 and(
                     eq(transactions.id, id),
-                    eq(transactions.userId, session.user.id)
-                )
+                    eq(transactions.userId, session.user.id),
+                ),
             )
             .returning();
 
         if (!deletedTransaction) {
             return NextResponse.json(
                 { message: "Transaction not found or not authorized" },
-                { status: 404 }
+                { status: 404 },
             );
         }
 
-        return NextResponse.json({ message: "Transaction deleted successfully" });
+        return NextResponse.json({
+            message: "Transaction deleted successfully",
+        });
     } catch (error) {
         console.error("Error deleting transaction:", error);
         return NextResponse.json(
             { message: "Failed to delete transaction" },
-            { status: 500 }
+            { status: 500 },
         );
     }
 }

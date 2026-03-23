@@ -5,7 +5,7 @@ import { budgets } from "@/db/schema";
 import { eq, and } from "drizzle-orm";
 
 export async function GET(
-    req: NextRequest,
+    _req: NextRequest,
     { params }: { params: Promise<{ id: string }> },
 ) {
     try {
