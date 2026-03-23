@@ -22,7 +22,7 @@ import {
 import { pt, enUS } from "date-fns/locale";
 import MonthlyBarChart from "@/components/dashboard/MonthlyBarChart";
 import CategoryPieChart from "@/components/dashboard/CategoryPieChart";
-import { formatCurrency } from "../utils/currency";
+import { formatCurrency } from "../../../utils/currency";
 import Link from "next/link";
 import DateRangeFilter from "@/components/dashboard/DateRangeFilter";
 import { getTranslations } from "next-intl/server";

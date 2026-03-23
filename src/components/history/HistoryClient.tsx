@@ -1,19 +1,18 @@
 "use client";
 
-import { useTranslations, useLocale } from "next-intl";
-
-import { useState, useEffect, useMemo } from "react";
-import { format } from "date-fns";
-import { pt, enUS } from "date-fns/locale";
+import { formatCurrency } from "@/utils/currency";
 import { useApi } from "@/hooks/useApi";
+import { format } from "date-fns";
+import { enUS, pt } from "date-fns/locale";
 import {
-    ArrowUpRight,
     ArrowDownRight,
+    ArrowUpRight,
+    Calendar,
     Search,
     Wallet,
-    Calendar,
 } from "lucide-react";
-import { formatCurrency } from "@/app/[locale]/utils/currency";
+import { useLocale, useTranslations } from "next-intl";
+import { useEffect, useMemo, useState } from "react";
 
 interface Category {
     id: string;

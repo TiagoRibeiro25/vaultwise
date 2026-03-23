@@ -1,24 +1,23 @@
 "use client";
 
-import { useTranslations, useLocale } from "next-intl";
-
-import { useState, useEffect, useMemo } from "react";
-import {
-    Plus,
-    Edit2,
-    Trash2,
-    Calendar,
-    CreditCard,
-    Activity,
-    CheckCircle,
-} from "lucide-react";
-import { format, differenceInDays } from "date-fns";
-import { pt, enUS } from "date-fns/locale";
-import { useApi } from "@/hooks/useApi";
-import SubscriptionFormModal from "./SubscriptionFormModal";
+import { formatCurrency } from "@/utils/currency";
 import ConfirmModal from "@/components/ui/ConfirmModal";
+import { useApi } from "@/hooks/useApi";
+import { differenceInDays, format } from "date-fns";
+import { enUS, pt } from "date-fns/locale";
+import {
+    Activity,
+    Calendar,
+    CheckCircle,
+    CreditCard,
+    Edit2,
+    Plus,
+    Trash2,
+} from "lucide-react";
+import { useLocale, useTranslations } from "next-intl";
+import { useEffect, useMemo, useState } from "react";
 import toast from "react-hot-toast";
-import { formatCurrency } from "@/app/[locale]/utils/currency";
+import SubscriptionFormModal from "./SubscriptionFormModal";
 
 interface Category {
     id: string;

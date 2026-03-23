@@ -1,13 +1,12 @@
 "use client";
 
-import { useTranslations } from "next-intl";
-
-import { useState, useEffect } from "react";
-import { Plus, Pencil, Trash2, Tag, Lock } from "lucide-react";
-import { useApi } from "@/hooks/useApi";
-import CategoryFormModal from "./CategoryFormModal";
 import ConfirmModal from "@/components/ui/ConfirmModal";
+import { useApi } from "@/hooks/useApi";
+import { Lock, Pencil, Plus, Tag, Trash2 } from "lucide-react";
+import { useTranslations } from "next-intl";
+import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
+import CategoryFormModal from "./CategoryFormModal";
 
 interface Category {
     id: string;

@@ -1,24 +1,23 @@
 "use client";
 
+import { formatCurrency } from "@/utils/currency";
 import ConfirmModal from "@/components/ui/ConfirmModal";
-import toast from "react-hot-toast";
-
-import { useState, useEffect } from "react";
-import {
-    Plus,
-    Pencil,
-    Trash2,
-    ArrowUpRight,
-    ArrowDownRight,
-    Search,
-} from "lucide-react";
-import { format } from "date-fns";
-import { pt, enUS } from "date-fns/locale";
 import { useApi } from "@/hooks/useApi";
-import TransactionFormModal from "./TransactionFormModal";
+import { format } from "date-fns";
+import { enUS, pt } from "date-fns/locale";
+import {
+    ArrowDownRight,
+    ArrowUpRight,
+    Pencil,
+    Plus,
+    Search,
+    Trash2,
+} from "lucide-react";
+import { useLocale, useTranslations } from "next-intl";
+import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 import ExportCsvButton from "./ExportCsvButton";
-import { formatCurrency } from "@/app/[locale]/utils/currency";
-import { useTranslations, useLocale } from "next-intl";
+import TransactionFormModal from "./TransactionFormModal";
 
 interface Category {
     id: string;
