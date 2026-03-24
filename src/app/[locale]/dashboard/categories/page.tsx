@@ -1,14 +1,14 @@
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
-import { redirect } from "next/navigation";
-import CategoriesClient from "@/components/categories/CategoriesClient";
+import CategoriesClient from "@/components/categories/CategoriesClient"
+import { authOptions } from "@/lib/auth"
+import { getServerSession } from "next-auth"
+import { redirect } from "next/navigation"
 
 export default async function CategoriesPage() {
-    const session = await getServerSession(authOptions);
+  const session = await getServerSession(authOptions)
 
-    if (!session?.user?.id) {
-        redirect("/login");
-    }
+  if (!session?.user?.id) {
+    redirect("/login")
+  }
 
-    return <CategoriesClient />;
+  return <CategoriesClient />
 }
