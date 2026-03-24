@@ -60,7 +60,8 @@
     "Logout": {
         "button": "Log out",
         "title": "Confirm Logout",
-        "message": "Are you sure you want to log out of your account? You will need to sign in again to access your financial dashboard."
+        "message": "Are you sure you want to log out of your account? You will need to sign in again to access your financial dashboard.",
+        "confirm": "Logout"
     },
     "Transactions": {
         "title": "Transactions",

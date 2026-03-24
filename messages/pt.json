@@ -60,7 +60,8 @@
     "Logout": {
         "button": "Sair",
         "title": "Confirmar Logout",
-        "message": "Tem certeza de que deseja sair da sua conta? Você precisará fazer login novamente para acessar seu dashboard financeiro."
+        "message": "Tem certeza de que deseja sair da sua conta? Você precisará fazer login novamente para acessar seu dashboard financeiro.",
+        "confirm": "Logout"
     },
     "Transactions": {
         "title": "Transações",
