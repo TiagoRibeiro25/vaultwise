@@ -90,3 +90,4 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 - `npm run build`: Builds the app for production.
 - `npm run start`: Runs the built production application.
 - `npm run lint`: Runs ESLint to catch coding errors.
+- `npm run format`: Formats the code using Prettier.
